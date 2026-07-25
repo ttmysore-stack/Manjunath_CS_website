@@ -1858,3 +1858,373 @@
         right: 84px !important;
     }
 }
+
+/* ==========================================================================
+   Services Page Redesigned Styles & Sub-Heading Navigation
+   ========================================================================== */
+
+.active-nav {
+    color: var(--blue-accent) !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid var(--blue-accent);
+    padding-bottom: 4px;
+}
+
+/* Clean Header Banner */
+.services-page-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #00498E 100%);
+    color: #ffffff;
+    padding: 50px 0 40px 0;
+    text-align: center;
+}
+
+.banner-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+}
+
+.services-page-banner h1 {
+    font-size: 34px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+    line-height: 1.25;
+}
+
+.services-page-banner p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Sticky Sub-Heading Category Navigation Bar */
+.services-subnav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 12px 0;
+}
+
+.subnav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.subnav-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.subnav-title i {
+    color: var(--blue-primary);
+}
+
+.subnav-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.subnav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 25px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    border: 1px solid #e2e8f0;
+}
+
+.subnav-link:hover {
+    background: rgba(0, 73, 142, 0.08);
+    color: var(--blue-primary);
+    border-color: rgba(0, 73, 142, 0.2);
+}
+
+.subnav-link.active-subnav {
+    background: var(--blue-primary);
+    color: #ffffff;
+    border-color: var(--blue-primary);
+    box-shadow: 0 4px 12px rgba(0, 73, 142, 0.25);
+}
+
+/* Main Container Padding */
+.services-main-container {
+    padding-top: 35px;
+    padding-bottom: 70px;
+}
+
+/* Part Section & Header Card */
+.part-section {
+    margin-bottom: 50px;
+    scroll-margin-top: 90px;
+}
+
+.part-header-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 5px solid var(--blue-primary);
+    padding: 22px 28px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    margin-bottom: 28px;
+}
+
+.part-icon-box {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    background: rgba(0, 73, 142, 0.08);
+    color: var(--blue-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.part-badge-tag {
+    display: inline-block;
+    background: var(--blue-primary);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.part-header-card h2 {
+    font-size: 22px;
+    color: #0f172a;
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.part-header-card p {
+    font-size: 13.5px;
+    color: #64748b;
+    margin: 0;
+    text-align: left;
+}
+
+/* Services Grid Layout */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+}
+
+/* Service Card & Typography Alignment */
+.service-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    scroll-margin-top: 100px;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0, 73, 142, 0.1);
+    border-color: rgba(0, 73, 142, 0.25);
+}
+
+.service-card-header {
+    padding: 20px 22px 14px 22px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fafbfc;
+    text-align: left;
+}
+
+.service-part-pill {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--blue-primary);
+    background: rgba(0, 73, 142, 0.08);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.service-card-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.35;
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.gov-act-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: #475569;
+    background: #e2e8f0;
+    padding: 3px 8px;
+    border-radius: 5px;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.service-card-body {
+    padding: 18px 22px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+}
+
+.card-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+}
+
+.section-subtitle {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--blue-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.section-subtitle i {
+    font-size: 13px;
+}
+
+.section-text {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.6;
+    margin: 0 0 4px 0;
+    text-align: left;
+}
+
+/* Bullet List Clean Alignment */
+.section-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: left;
+}
+
+.section-list li {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.bullet-icon {
+    color: var(--blue-primary);
+    font-size: 11px;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+.section-list li span {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.service-card-footer {
+    padding: 14px 22px 18px 22px;
+    background: #fafbfc;
+    border-top: 1px solid #f1f5f9;
+}
+
+.card-wa-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 11px;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .subnav-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .subnav-links {
+        width: 100%;
+    }
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    .part-header-card {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    .part-header-card h2, .part-header-card p {
+        text-align: center;
+    }
+}

@@ -231,3 +231,70 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+/* ==========================================================================
+   Services Page Sub-Heading Bar Scroll & Active Highlight Logic
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', function() {
+    const subnavLinks = document.querySelectorAll('.subnav-link');
+    const sections = document.querySelectorAll('.part-section');
+
+    if (subnavLinks.length > 0 && sections.length > 0) {
+        // Active scrollspy highlight
+        function onScroll() {
+            let current = '';
+            const scrollPos = window.scrollY + 140;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            subnavLinks.forEach(link => {
+                link.classList.remove('active-subnav');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active-subnav');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', onScroll);
+
+        // Smooth scroll to category section
+        subnavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSec = document.getElementById(targetId);
+                if (targetSec) {
+                    const offsetTop = targetSec.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+
+    // Back to Top Floating Button Toggle
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show-top-btn');
+            } else {
+                backToTopBtn.classList.remove('show-top-btn');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+});
