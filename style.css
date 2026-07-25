@@ -2079,7 +2079,7 @@
     padding: 20px 22px 14px 22px;
     border-bottom: 1px solid #f1f5f9;
     background: #fafbfc;
-    text-align: left;
+    text-align: center;
 }
 
 .service-part-pill {
@@ -2100,7 +2100,7 @@
     color: #0f172a;
     line-height: 1.35;
     margin-bottom: 4px;
-    text-align: left;
+    text-align: center;
 }
 
 .gov-act-badge {
