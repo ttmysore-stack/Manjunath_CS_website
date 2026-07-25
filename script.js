@@ -208,3 +208,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+/* ==========================================================================
+   Social Media Floating Action Button (FAB) Toggle Engine
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', function() {
+    const socialFab = document.getElementById('socialFab');
+    const fabToggleBtn = document.getElementById('fabToggleBtn');
+
+    if (fabToggleBtn && socialFab) {
+        fabToggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            socialFab.classList.toggle('fab-open');
+        });
+
+        // Close FAB when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!socialFab.contains(e.target)) {
+                socialFab.classList.remove('fab-open');
+            }
+        });
+    }
+});
