@@ -19,38 +19,108 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 2. Services Page Category Filtering (Shows Only Selected Category)
+    // 2. Services Page Category Selection & View Controller
     // ----------------------------------------------------------------------
+    const initialCategoriesView = document.getElementById('initialCategoriesView');
+    const categoryServicesWrapper = document.getElementById('categoryServicesWrapper');
+    const categoryNavTop = document.getElementById('categoryNavTop');
+    const backToCategoriesBtn = document.getElementById('backToCategoriesBtn');
+    const categorySelectCards = document.querySelectorAll('.category-select-card');
     const categoryTabs = document.querySelectorAll('.cat-tab');
     const categoryGroups = document.querySelectorAll('.category-view-group');
 
-    if (categoryTabs.length > 0 && categoryGroups.length > 0) {
+    function showAllCategories() {
+        if (initialCategoriesView) initialCategoriesView.style.display = 'block';
+        if (categoryNavTop) categoryNavTop.style.display = 'none';
+
+        categoryGroups.forEach(group => group.style.display = 'none');
         categoryTabs.forEach(tab => {
-            tab.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetPart = this.getAttribute('data-part');
-
-                // Highlight active tab
-                categoryTabs.forEach(t => t.classList.remove('active-subnav'));
-                this.classList.add('active-subnav');
-
-                // Display only selected category group
-                categoryGroups.forEach(group => {
-                    if (group.getAttribute('id') === targetPart) {
-                        group.style.display = 'block';
-                    } else {
-                        group.style.display = 'none';
-                    }
-                });
-
-                // Scroll to active section smoothly
-                const targetGroup = document.getElementById(targetPart);
-                if (targetGroup) {
-                    const offsetTop = targetGroup.offsetTop - 80;
-                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-                }
-            });
+            tab.classList.remove('active-subnav');
+            if (tab.getAttribute('data-part') === 'all') {
+                tab.classList.add('active-subnav');
+            }
         });
+
+        // Update URL query string cleanly
+        if (window.history.pushState) {
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.pushState({path: newUrl}, '', newUrl);
+        }
+    }
+
+    function showSelectedCategory(partId) {
+        if (!partId || partId === 'all') {
+            showAllCategories();
+            return;
+        }
+
+        if (initialCategoriesView) initialCategoriesView.style.display = 'none';
+        if (categoryNavTop) categoryNavTop.style.display = 'block';
+
+        // Display ONLY the selected category group
+        categoryGroups.forEach(group => {
+            if (group.getAttribute('id') === partId) {
+                group.style.display = 'block';
+            } else {
+                group.style.display = 'none';
+            }
+        });
+
+        // Highlight active category tab
+        categoryTabs.forEach(tab => {
+            tab.classList.remove('active-subnav');
+            if (tab.getAttribute('data-part') === partId) {
+                tab.classList.add('active-subnav');
+            }
+        });
+
+        // Update URL parameter without full page reload
+        if (window.history.pushState) {
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?part=' + partId;
+            window.history.pushState({path: newUrl}, '', newUrl);
+        }
+
+        // Scroll to category header
+        const targetSec = document.getElementById(partId);
+        if (targetSec) {
+            const offsetTop = targetSec.offsetTop - 80;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        }
+    }
+
+    // Handle clicks on Category Select Cards (Landing view)
+    categorySelectCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const partId = this.getAttribute('data-target-part');
+            showSelectedCategory(partId);
+        });
+    });
+
+    // Handle clicks on Category Tabs
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            const partId = this.getAttribute('data-part');
+            showSelectedCategory(partId);
+        });
+    });
+
+    // Back to All Categories button
+    if (backToCategoriesBtn) {
+        backToCategoriesBtn.addEventListener('click', function() {
+            showAllCategories();
+            const subnavBar = document.getElementById('subnavBar');
+            if (subnavBar) {
+                window.scrollTo({ top: subnavBar.offsetTop - 70, behavior: 'smooth' });
+            }
+        });
+    }
+
+    // Check URL query parameters on initial page load (e.g. ?part=part-1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialPart = urlParams.get('part');
+    if (initialPart) {
+        showSelectedCategory(initialPart);
     }
 
     // ----------------------------------------------------------------------
@@ -142,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModalBtn = document.getElementById('closeModalBtn');
     const whatsappForm = document.getElementById('whatsappForm');
 
-    // Global trigger function
     window.openWhatsAppModal = function(preselectedService) {
         if (whatsappModal) {
             if (preselectedService) {
