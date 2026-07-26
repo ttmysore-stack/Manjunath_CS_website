@@ -138,6 +138,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+
+        // Close mobile menu when tapping non-dropdown links (Home, About Us, Why Us, Contact)
+        navLinks.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                // Only close if this is NOT a dropdown toggle (those are handled above)
+                if (!this.classList.contains('dropdown-toggle') && !this.closest('.has-nested') && isMobile()) {
+                    navLinks.classList.remove('active', 'active-mobile');
+                    menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+                    document.querySelectorAll('.nav-dropdown.mobile-open, .has-nested.mobile-open').forEach(function(el) {
+                        el.classList.remove('mobile-open');
+                    });
+                }
+            });
+        });
+
+        // Also close menu when a nested sub-menu service link is tapped
+        navLinks.querySelectorAll('.nested-sub-menu a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (isMobile()) {
+                    navLinks.classList.remove('active', 'active-mobile');
+                    menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+                    document.querySelectorAll('.nav-dropdown.mobile-open, .has-nested.mobile-open').forEach(function(el) {
+                        el.classList.remove('mobile-open');
+                    });
+                }
+            });
+        });
     }
 
     // ----------------------------------------------------------------------
