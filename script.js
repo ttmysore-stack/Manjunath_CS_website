@@ -19,58 +19,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 2. Services Page Selection & Accordion Controller
+    // 2. Services Page - Category & Single Service View Controller
     // ----------------------------------------------------------------------
     const initialCategoriesView = document.getElementById('initialCategoriesView');
     const categoryNavTop = document.getElementById('categoryNavTop');
     const backToCategoriesBtn = document.getElementById('backToCategoriesBtn');
     const categorySelectCards = document.querySelectorAll('.category-select-card[data-target-part]');
     const categoryGroups = document.querySelectorAll('.category-view-group');
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
     const subServiceDropdowns = document.querySelectorAll('.sub-service-dropdown');
 
     function showAllCategories() {
         if (initialCategoriesView) initialCategoriesView.style.display = 'block';
         if (categoryNavTop) categoryNavTop.style.display = 'none';
-
-        categoryGroups.forEach(group => group.style.display = 'none');
+        categoryGroups.forEach(function(group) { group.style.display = 'none'; });
 
         if (window.history.pushState) {
-            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
     }
 
-    function expandSpecificAccordion(serviceId) {
-        if (!serviceId) return;
-        const accordionCard = document.getElementById(serviceId);
-        if (accordionCard) {
-            // Collapse all other accordions in the same group
-            const parentGroup = accordionCard.closest('.category-view-group');
-            if (parentGroup) {
-                parentGroup.querySelectorAll('.accordion-item-card').forEach(card => {
-                    card.classList.remove('accordion-active');
-                    const body = card.querySelector('.accordion-body');
-                    if (body) body.style.display = 'none';
-                    const btnSpan = card.querySelector('.accordion-toggle-btn span');
-                    if (btnSpan) btnSpan.textContent = 'Expand Details';
-                });
-            }
-
-            // Expand chosen accordion
-            accordionCard.classList.add('accordion-active');
-            const body = accordionCard.querySelector('.accordion-body');
-            if (body) body.style.display = 'block';
-            const btnSpan = accordionCard.querySelector('.accordion-toggle-btn span');
-            if (btnSpan) btnSpan.textContent = 'Collapse Details';
-
-            // Scroll to accordion item smoothly
-            const offsetTop = accordionCard.offsetTop - 90;
-            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-        }
-    }
-
-    function showSelectedCategory(partId, serviceId = null) {
+    function showSelectedCategory(partId, serviceId) {
         if (!partId || partId === 'all') {
             showAllCategories();
             return;
@@ -79,38 +48,65 @@ document.addEventListener('DOMContentLoaded', function() {
         if (initialCategoriesView) initialCategoriesView.style.display = 'none';
         if (categoryNavTop) categoryNavTop.style.display = 'block';
 
-        // Display ONLY the selected category group
-        categoryGroups.forEach(group => {
-            if (group.getAttribute('id') === partId) {
-                group.style.display = 'block';
-            } else {
-                group.style.display = 'none';
-            }
+        // Show only the selected part group
+        categoryGroups.forEach(function(group) {
+            group.style.display = (group.getAttribute('id') === partId) ? 'block' : 'none';
         });
 
-        // Update URL parameter cleanly
+        // Now handle single service filtering within the active part
+        var activeGroup = document.getElementById(partId);
+        if (activeGroup) {
+            var allCards = activeGroup.querySelectorAll('.single-service-card');
+
+            if (serviceId && serviceId !== 'all') {
+                // HIDE all service cards, show ONLY the selected one
+                allCards.forEach(function(card) {
+                    card.style.display = (card.getAttribute('id') === serviceId) ? 'block' : 'none';
+                });
+
+                // Update the dropdown to reflect the selection
+                var dropdown = activeGroup.querySelector('.sub-service-dropdown');
+                if (dropdown) dropdown.value = serviceId;
+            } else {
+                // Show ALL service cards in this part
+                allCards.forEach(function(card) {
+                    card.style.display = 'block';
+                });
+
+                // Reset the dropdown
+                var dropdown = activeGroup.querySelector('.sub-service-dropdown');
+                if (dropdown) dropdown.value = 'all';
+            }
+        }
+
+        // Update URL
         if (window.history.pushState) {
-            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?part=' + partId;
-            if (serviceId) newUrl += '&service=' + serviceId;
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?part=' + partId;
+            if (serviceId && serviceId !== 'all') newUrl += '&service=' + serviceId;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
 
-        if (serviceId) {
-            setTimeout(() => expandSpecificAccordion(serviceId), 100);
+        // Scroll to top of the content
+        if (serviceId && serviceId !== 'all') {
+            var targetCard = document.getElementById(serviceId);
+            if (targetCard) {
+                var offsetTop = targetCard.offsetTop - 90;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            }
         } else {
-            const targetSec = document.getElementById(partId);
+            var targetSec = document.getElementById(partId);
             if (targetSec) {
-                const offsetTop = targetSec.offsetTop - 80;
+                var offsetTop = targetSec.offsetTop - 80;
                 window.scrollTo({ top: offsetTop, behavior: 'smooth' });
             }
         }
     }
 
     // Landing view card clicks
-    categorySelectCards.forEach(card => {
+    categorySelectCards.forEach(function(card) {
         card.addEventListener('click', function() {
-            const partId = this.getAttribute('data-target-part');
-            showSelectedCategory(partId);
+            var partId = this.getAttribute('data-target-part');
+            showSelectedCategory(partId, null);
         });
     });
 
@@ -121,40 +117,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Accordion Toggle Clicks
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', function() {
-            const card = this.closest('.accordion-item-card');
-            const targetId = this.getAttribute('data-accordion-target');
-            const body = document.getElementById(targetId);
-            const btnSpan = this.querySelector('.accordion-toggle-btn span');
-
-            if (card.classList.contains('accordion-active')) {
-                card.classList.remove('accordion-active');
-                if (body) body.style.display = 'none';
-                if (btnSpan) btnSpan.textContent = 'Expand Details';
-            } else {
-                card.classList.add('accordion-active');
-                if (body) body.style.display = 'block';
-                if (btnSpan) btnSpan.textContent = 'Collapse Details';
-            }
-        });
-    });
-
-    // Sub-Service Dropdown Selectors
-    subServiceDropdowns.forEach(dropdown => {
+    // Sub-Service Dropdown change - show ONLY the selected service
+    subServiceDropdowns.forEach(function(dropdown) {
         dropdown.addEventListener('change', function() {
-            const selectedServiceId = this.value;
-            if (selectedServiceId) {
-                expandSpecificAccordion(selectedServiceId);
-            }
+            var selectedServiceId = this.value;
+            var partId = this.getAttribute('data-part');
+            showSelectedCategory(partId, selectedServiceId);
         });
     });
 
-    // Check URL query parameters for Services page (?part=part-1&service=sole-proprietorship)
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialPart = urlParams.get('part');
-    const initialService = urlParams.get('service');
+    // Check URL query parameters on page load
+    var urlParams = new URLSearchParams(window.location.search);
+    var initialPart = urlParams.get('part');
+    var initialService = urlParams.get('service');
 
     if (initialPart && categoryGroups.length > 0) {
         showSelectedCategory(initialPart, initialService);
@@ -163,20 +138,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // ----------------------------------------------------------------------
     // 3. IBC & Valuation Page Selection & View Controller
     // ----------------------------------------------------------------------
-    const initialIbcView = document.getElementById('initialIbcView');
-    const ibcNavTop = document.getElementById('ibcNavTop');
-    const backToIbcCategoriesBtn = document.getElementById('backToIbcCategoriesBtn');
-    const ibcSelectCards = document.querySelectorAll('.category-select-card[data-target-ibc]');
-    const ibcGroups = document.querySelectorAll('.ibc-view-group');
+    var initialIbcView = document.getElementById('initialIbcView');
+    var ibcNavTop = document.getElementById('ibcNavTop');
+    var backToIbcCategoriesBtn = document.getElementById('backToIbcCategoriesBtn');
+    var ibcSelectCards = document.querySelectorAll('.category-select-card[data-target-ibc]');
+    var ibcGroups = document.querySelectorAll('.ibc-view-group');
 
     function showAllIbcSections() {
         if (initialIbcView) initialIbcView.style.display = 'block';
         if (ibcNavTop) ibcNavTop.style.display = 'none';
-
-        ibcGroups.forEach(group => group.style.display = 'none');
+        ibcGroups.forEach(function(group) { group.style.display = 'none'; });
 
         if (window.history.pushState) {
-            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
     }
@@ -190,31 +164,25 @@ document.addEventListener('DOMContentLoaded', function() {
         if (initialIbcView) initialIbcView.style.display = 'none';
         if (ibcNavTop) ibcNavTop.style.display = 'block';
 
-        // Display ONLY the selected IBC section
-        ibcGroups.forEach(group => {
-            if (group.getAttribute('id') === secId) {
-                group.style.display = 'block';
-            } else {
-                group.style.display = 'none';
-            }
+        ibcGroups.forEach(function(group) {
+            group.style.display = (group.getAttribute('id') === secId) ? 'block' : 'none';
         });
 
         if (window.history.pushState) {
-            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?sec=' + secId;
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?sec=' + secId;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
 
-        const targetSec = document.getElementById(secId);
+        var targetSec = document.getElementById(secId);
         if (targetSec) {
-            const offsetTop = targetSec.offsetTop - 80;
+            var offsetTop = targetSec.offsetTop - 80;
             window.scrollTo({ top: offsetTop, behavior: 'smooth' });
         }
     }
 
-    ibcSelectCards.forEach(card => {
+    ibcSelectCards.forEach(function(card) {
         card.addEventListener('click', function() {
-            const secId = this.getAttribute('data-target-ibc');
-            showSelectedIbcSection(secId);
+            showSelectedIbcSection(this.getAttribute('data-target-ibc'));
         });
     });
 
@@ -225,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const initialSec = urlParams.get('sec');
+    var initialSec = urlParams.get('sec');
     if (initialSec && ibcGroups.length > 0) {
         showSelectedIbcSection(initialSec);
     }
@@ -233,12 +201,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // ----------------------------------------------------------------------
     // 4. Updates Page Selection & View Controller
     // ----------------------------------------------------------------------
-    const initialUpdatesView = document.getElementById('initialUpdatesView');
-    const updatesNavTop = document.getElementById('updatesNavTop');
-    const backToUpdatesCategoriesBtn = document.getElementById('backToUpdatesCategoriesBtn');
-    const updateSelectCards = document.querySelectorAll('.category-select-card[data-target-update]');
-    const updatesFeed = document.getElementById('updatesFeed');
-    const updateCards = document.querySelectorAll('.update-card');
+    var initialUpdatesView = document.getElementById('initialUpdatesView');
+    var updatesNavTop = document.getElementById('updatesNavTop');
+    var backToUpdatesCategoriesBtn = document.getElementById('backToUpdatesCategoriesBtn');
+    var updateSelectCards = document.querySelectorAll('.category-select-card[data-target-update]');
+    var updatesFeed = document.getElementById('updatesFeed');
+    var updateCards = document.querySelectorAll('.update-card');
 
     function showAllUpdatesTopics() {
         if (initialUpdatesView) initialUpdatesView.style.display = 'block';
@@ -246,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (updatesFeed) updatesFeed.style.display = 'none';
 
         if (window.history.pushState) {
-            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
     }
@@ -261,29 +229,24 @@ document.addEventListener('DOMContentLoaded', function() {
         if (updatesNavTop) updatesNavTop.style.display = 'block';
         if (updatesFeed) updatesFeed.style.display = 'grid';
 
-        updateCards.forEach(card => {
-            if (card.getAttribute('data-category') === catId) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
+        updateCards.forEach(function(card) {
+            card.style.display = (card.getAttribute('data-category') === catId) ? 'flex' : 'none';
         });
 
         if (window.history.pushState) {
-            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?cat=' + catId;
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?cat=' + catId;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
 
         if (updatesFeed) {
-            const offsetTop = updatesFeed.offsetTop - 80;
+            var offsetTop = updatesFeed.offsetTop - 80;
             window.scrollTo({ top: offsetTop, behavior: 'smooth' });
         }
     }
 
-    updateSelectCards.forEach(card => {
+    updateSelectCards.forEach(function(card) {
         card.addEventListener('click', function() {
-            const catId = this.getAttribute('data-target-update');
-            showSelectedUpdateTopic(catId);
+            showSelectedUpdateTopic(this.getAttribute('data-target-update'));
         });
     });
 
@@ -294,17 +257,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const initialCat = urlParams.get('cat');
+    var initialCat = urlParams.get('cat');
     if (initialCat && updateCards.length > 0) {
         showSelectedUpdateTopic(initialCat);
     }
 
     // Updates Read More Toggle
-    const readMoreUpdateBtns = document.querySelectorAll('.read-more-update-btn');
-    readMoreUpdateBtns.forEach(btn => {
+    var readMoreUpdateBtns = document.querySelectorAll('.read-more-update-btn');
+    readMoreUpdateBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const details = document.getElementById(targetId);
+            var targetId = this.getAttribute('data-target');
+            var details = document.getElementById(targetId);
             if (details) {
                 if (details.style.display === 'none' || details.style.display === '') {
                     details.style.display = 'block';
@@ -320,8 +283,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ----------------------------------------------------------------------
     // 5. Floating Social FAB Toggle
     // ----------------------------------------------------------------------
-    const socialFab = document.getElementById('socialFab');
-    const fabToggleBtn = document.getElementById('fabToggleBtn');
+    var socialFab = document.getElementById('socialFab');
+    var fabToggleBtn = document.getElementById('fabToggleBtn');
 
     if (fabToggleBtn && socialFab) {
         fabToggleBtn.addEventListener('click', function(e) {
@@ -339,17 +302,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // ----------------------------------------------------------------------
     // 6. WhatsApp Quick Enquiry Form Modal Engine
     // ----------------------------------------------------------------------
-    const whatsappModal = document.getElementById('whatsappModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const whatsappForm = document.getElementById('whatsappForm');
+    var whatsappModal = document.getElementById('whatsappModal');
+    var closeModalBtn = document.getElementById('closeModalBtn');
+    var whatsappForm = document.getElementById('whatsappForm');
 
     window.openWhatsAppModal = function(preselectedService) {
         if (whatsappModal) {
             if (preselectedService) {
-                const waServiceSelect = document.getElementById('waService');
-                if (waServiceSelect) {
-                    waServiceSelect.value = preselectedService;
-                }
+                var waServiceSelect = document.getElementById('waService');
+                if (waServiceSelect) waServiceSelect.value = preselectedService;
             }
             whatsappModal.classList.add('active-modal');
         }
@@ -370,20 +331,20 @@ document.addEventListener('DOMContentLoaded', function() {
     if (whatsappForm) {
         whatsappForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const name = document.getElementById('waName').value.trim();
-            const mobile = document.getElementById('waMobile').value.trim();
-            const email = document.getElementById('waEmail').value.trim();
-            const service = document.getElementById('waService').value;
-            const message = document.getElementById('waMessage').value.trim();
+            var name = document.getElementById('waName').value.trim();
+            var mobile = document.getElementById('waMobile').value.trim();
+            var email = document.getElementById('waEmail').value.trim();
+            var service = document.getElementById('waService').value;
+            var message = document.getElementById('waMessage').value.trim();
 
-            let fullMsg = `Hello Sir, I visited your website and would like assistance regarding ${service}.\n\n`;
-            fullMsg += `*Client Details:*\n`;
-            fullMsg += `• Name: ${name}\n`;
-            fullMsg += `• Mobile: ${mobile}\n`;
-            if (email) fullMsg += `• Email: ${email}\n`;
-            if (message) fullMsg += `• Enquiry: ${message}\n`;
+            var fullMsg = 'Hello Sir, I visited your website and would like assistance regarding ' + service + '.\n\n';
+            fullMsg += '*Client Details:*\n';
+            fullMsg += '• Name: ' + name + '\n';
+            fullMsg += '• Mobile: ' + mobile + '\n';
+            if (email) fullMsg += '• Email: ' + email + '\n';
+            if (message) fullMsg += '• Enquiry: ' + message + '\n';
 
-            const encodedUrl = `https://wa.me/919964307595?text=${encodeURIComponent(fullMsg)}`;
+            var encodedUrl = 'https://wa.me/919964307595?text=' + encodeURIComponent(fullMsg);
             window.open(encodedUrl, '_blank');
 
             whatsappModal.classList.remove('active-modal');
@@ -394,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ----------------------------------------------------------------------
     // 7. Back to Top Button
     // ----------------------------------------------------------------------
-    const backToTopBtn = document.getElementById('backToTopBtn');
+    var backToTopBtn = document.getElementById('backToTopBtn');
     if (backToTopBtn) {
         window.addEventListener('scroll', function() {
             if (window.scrollY > 300) {
