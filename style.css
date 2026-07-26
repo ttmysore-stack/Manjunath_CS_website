@@ -3071,3 +3071,27 @@
     background: #ffffff;
 }
 
+
+/* Hide Sub-Service Selector Box as requested */
+.sub-service-selector-box {
+    display: none !important;
+}
+
+/* Proper Paragraph & Text Realignment for Services Pages */
+.section-text, .service-card-body p, .part-header-card p {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    text-align-last: left !important;
+    line-height: 1.65 !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    color: #334155 !important;
+}
+
+.section-list li span {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    text-align-last: left !important;
+    line-height: 1.55 !important;
+}

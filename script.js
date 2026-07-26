@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var activeGroup = document.getElementById(partId);
         if (activeGroup) {
             var allCards = activeGroup.querySelectorAll('.single-service-card');
+            var selectorBox = activeGroup.querySelector('.sub-service-selector-box');
 
             if (serviceId && serviceId !== 'all') {
                 // HIDE all service cards, show ONLY the selected one
@@ -64,14 +65,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     card.style.display = (card.getAttribute('id') === serviceId) ? 'block' : 'none';
                 });
 
-                // Update the dropdown to reflect the selection
-                var dropdown = activeGroup.querySelector('.sub-service-dropdown');
-                if (dropdown) dropdown.value = serviceId;
+                // HIDE the dropdown selector since a service is already selected
+                if (selectorBox) selectorBox.style.display = 'none';
             } else {
                 // Show ALL service cards in this part
                 allCards.forEach(function(card) {
                     card.style.display = 'block';
                 });
+
+                // Show the dropdown selector for browsing
+                if (selectorBox) selectorBox.style.display = 'flex';
 
                 // Reset the dropdown
                 var dropdown = activeGroup.querySelector('.sub-service-dropdown');
