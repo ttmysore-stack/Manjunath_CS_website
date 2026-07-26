@@ -3235,7 +3235,7 @@
     color: #0284c7;
 }
 
-/* Mobile Nav Menu Support for active / active-mobile */
+/* Mobile Nav Menu Support — Collapsible Dropdowns */
 @media (max-width: 767px) {
     .nav-links.active,
     .nav-links.active-mobile {
@@ -3250,7 +3250,9 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         border-bottom: 1px solid #e2e8f0;
         z-index: 1000;
-        gap: 16px;
+        gap: 6px;
+        max-height: 80vh;
+        overflow-y: auto;
     }
 
     .nav-links.active li,
@@ -3258,44 +3260,71 @@
         width: 100%;
     }
 
-    .nav-links.active a,
-    .nav-links.active-mobile a {
+    .nav-links.active > li > a,
+    .nav-links.active-mobile > li > a {
         font-size: 16px;
         font-weight: 600;
         color: #0f172a;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 8px 0;
+        padding: 10px 0;
+        border-bottom: 1px solid #f1f5f9;
     }
 
-    .dropdown-menu {
+    /* Dropdowns HIDDEN by default on mobile */
+    .nav-dropdown .dropdown-menu {
         position: static !important;
         width: 100% !important;
         box-shadow: none !important;
         border: none !important;
         padding-left: 14px !important;
         transform: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
         background: #f8fafc !important;
         border-radius: 8px !important;
         margin-top: 6px !important;
+        display: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 
-    .nested-sub-menu {
+    /* Show dropdown ONLY when parent has mobile-open class */
+    .nav-dropdown.mobile-open > .dropdown-menu {
+        display: block !important;
+    }
+
+    /* Nested sub-menus HIDDEN by default on mobile */
+    .has-nested .nested-sub-menu {
         position: static !important;
         width: 100% !important;
         box-shadow: none !important;
         border: none !important;
         padding-left: 14px !important;
         transform: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
         background: #ffffff !important;
         border-radius: 6px !important;
         max-height: none !important;
+        display: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Show nested sub-menu ONLY when parent has mobile-open class */
+    .has-nested.mobile-open > .nested-sub-menu {
+        display: block !important;
+    }
+
+    /* Chevron rotation when open */
+    .nav-dropdown.mobile-open > a .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    .has-nested.mobile-open > a .nested-arrow {
+        transform: rotate(90deg);
+    }
+
+    .dropdown-arrow,
+    .nested-arrow {
+        transition: transform 0.25s ease;
     }
 }

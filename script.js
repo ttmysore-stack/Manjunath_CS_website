@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 1. Mobile Navigation Menu Toggle
+    // 1. Mobile Navigation Menu Toggle (Collapsible Dropdowns)
     // ----------------------------------------------------------------------
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
@@ -97,6 +97,46 @@ document.addEventListener('DOMContentLoaded', function() {
             navLinks.classList.toggle('active-mobile');
             menuToggle.innerHTML = (navLinks.classList.contains('active') || navLinks.classList.contains('active-mobile')) ? 
                 '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+
+            // Close all dropdowns when closing the menu
+            if (!navLinks.classList.contains('active')) {
+                document.querySelectorAll('.nav-dropdown.mobile-open, .has-nested.mobile-open').forEach(function(el) {
+                    el.classList.remove('mobile-open');
+                });
+            }
+        });
+
+        // Mobile dropdown toggle: tap to expand/collapse sub-menus
+        var isMobile = function() { return window.innerWidth < 768; };
+
+        // Toggle .nav-dropdown items (Services, IBC, Updates)
+        document.querySelectorAll('.nav-dropdown > .dropdown-toggle').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                if (isMobile() && navLinks.classList.contains('active')) {
+                    e.preventDefault();
+                    var parentLi = this.closest('.nav-dropdown');
+                    // Close sibling dropdowns
+                    document.querySelectorAll('.nav-dropdown.mobile-open').forEach(function(el) {
+                        if (el !== parentLi) el.classList.remove('mobile-open');
+                    });
+                    parentLi.classList.toggle('mobile-open');
+                }
+            });
+        });
+
+        // Toggle .has-nested items (Part 1, Part 2, etc.)
+        document.querySelectorAll('.has-nested > a').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                if (isMobile() && navLinks.classList.contains('active')) {
+                    e.preventDefault();
+                    var parentLi = this.closest('.has-nested');
+                    // Close sibling nested menus
+                    document.querySelectorAll('.has-nested.mobile-open').forEach(function(el) {
+                        if (el !== parentLi) el.classList.remove('mobile-open');
+                    });
+                    parentLi.classList.toggle('mobile-open');
+                }
+            });
         });
     }
 
