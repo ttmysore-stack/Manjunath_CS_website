@@ -168,48 +168,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 4. Service Cards Read More Details Toggle
+    // 4. Updates Page Selection & View Controller
     // ----------------------------------------------------------------------
-    const readMoreServiceBtns = document.querySelectorAll('.read-more-service-btn');
-    readMoreServiceBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const drawer = document.getElementById(targetId);
-            if (drawer) {
-                if (drawer.style.display === 'none' || drawer.style.display === '') {
-                    drawer.style.display = 'block';
-                    this.innerHTML = '<i class="fa-solid fa-chevron-up"></i> Hide Details';
-                } else {
-                    drawer.style.display = 'none';
-                    this.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Read More Details';
-                }
+    const initialUpdatesView = document.getElementById('initialUpdatesView');
+    const updatesNavTop = document.getElementById('updatesNavTop');
+    const backToUpdatesCategoriesBtn = document.getElementById('backToUpdatesCategoriesBtn');
+    const updateSelectCards = document.querySelectorAll('.category-select-card[data-target-update]');
+    const updatesFeed = document.getElementById('updatesFeed');
+    const updateCards = document.querySelectorAll('.update-card');
+
+    function showAllUpdatesTopics() {
+        if (initialUpdatesView) initialUpdatesView.style.display = 'block';
+        if (updatesNavTop) updatesNavTop.style.display = 'none';
+        if (updatesFeed) updatesFeed.style.display = 'none';
+
+        if (window.history.pushState) {
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.pushState({path: newUrl}, '', newUrl);
+        }
+    }
+
+    function showSelectedUpdateTopic(catId) {
+        if (!catId || catId === 'all') {
+            showAllUpdatesTopics();
+            return;
+        }
+
+        if (initialUpdatesView) initialUpdatesView.style.display = 'none';
+        if (updatesNavTop) updatesNavTop.style.display = 'block';
+        if (updatesFeed) updatesFeed.style.display = 'grid';
+
+        updateCards.forEach(card => {
+            if (card.getAttribute('data-category') === catId) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
             }
+        });
+
+        if (window.history.pushState) {
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?cat=' + catId;
+            window.history.pushState({path: newUrl}, '', newUrl);
+        }
+
+        if (updatesFeed) {
+            const offsetTop = updatesFeed.offsetTop - 80;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        }
+    }
+
+    updateSelectCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const catId = this.getAttribute('data-target-update');
+            showSelectedUpdateTopic(catId);
         });
     });
 
-    // ----------------------------------------------------------------------
-    // 5. Updates Page Filtering
-    // ----------------------------------------------------------------------
-    const updateTabs = document.querySelectorAll('.update-tab');
-    const updateCards = document.querySelectorAll('.update-card');
-
-    if (updateTabs.length > 0 && updateCards.length > 0) {
-        updateTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const filter = this.getAttribute('data-filter');
-
-                updateTabs.forEach(t => t.classList.remove('active-subnav'));
-                this.classList.add('active-subnav');
-
-                updateCards.forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
+    if (backToUpdatesCategoriesBtn) {
+        backToUpdatesCategoriesBtn.addEventListener('click', function() {
+            showAllUpdatesTopics();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+    }
+
+    // Check URL query parameters for Updates page (?cat=mca)
+    const initialCat = urlParams.get('cat');
+    if (initialCat && updateCards.length > 0) {
+        showSelectedUpdateTopic(initialCat);
     }
 
     // Updates Read More Toggle
@@ -225,6 +250,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     details.style.display = 'none';
                     this.innerHTML = '<i class="fa-solid fa-book-open"></i> Read More';
+                }
+            }
+        });
+    });
+
+    // ----------------------------------------------------------------------
+    // 5. Service Cards Read More Details Toggle
+    // ----------------------------------------------------------------------
+    const readMoreServiceBtns = document.querySelectorAll('.read-more-service-btn');
+    readMoreServiceBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const drawer = document.getElementById(targetId);
+            if (drawer) {
+                if (drawer.style.display === 'none' || drawer.style.display === '') {
+                    drawer.style.display = 'block';
+                    this.innerHTML = '<i class="fa-solid fa-chevron-up"></i> Hide Details';
+                } else {
+                    drawer.style.display = 'none';
+                    this.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Read More Details';
                 }
             }
         });

@@ -14,7 +14,6 @@
 <body id="top-anchor">
 
     <!-- Header Navigation -->
-        <!-- Header Navigation -->
     <header>
         <div class="container nav-wrapper">
             <div class="logo" id="logoHomeBtn">
@@ -44,7 +43,16 @@
                         <li><a href="ibc-valuation.html?sec=valuation-info"><i class="fa-solid fa-chart-line"></i> Valuation Information</a></li>
                     </ul>
                 </li>
-                <li><a href="updates.html" class="active-nav">Updates</a></li>
+                <li class="nav-dropdown">
+                    <a href="updates.html" class="dropdown-toggle active-nav">Updates <i class="fa-solid fa-chevron-down dropdown-arrow"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="updates.html?cat=mca"><i class="fa-solid fa-building"></i> Companies Act & MCA Updates</a></li>
+                        <li><a href="updates.html?cat=llp"><i class="fa-solid fa-handshake"></i> LLP Compliance Updates</a></li>
+                        <li><a href="updates.html?cat=ibc"><i class="fa-solid fa-gavel"></i> IBC & IBBI Circulars</a></li>
+                        <li><a href="updates.html?cat=rera"><i class="fa-solid fa-city"></i> RERA Updates</a></li>
+                        <li><a href="updates.html?cat=annual"><i class="fa-solid fa-calendar-days"></i> Director & Annual Compliance</a></li>
+                    </ul>
+                </li>
                 <li><a href="index.html#about">About Us</a></li>
                 <li><a href="index.html#why-us">Why Us</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
@@ -55,32 +63,83 @@
         </div>
     </header>
 
-    <!-- Services Page Banner -->
-    <section class="services-page-banner">
-        <div class="container">
-            <div class="banner-eyebrow"><i class="fa-solid fa-newspaper"></i> Regulatory & Statutory Insights</div>
-            <h1>Corporate & Compliance Updates</h1>
-            <p>Stay informed with the latest notifications, MCA circulars, annual filing due dates, IBC & IBBI developments, and corporate secretarial compliance reminders.</p>
-        </div>
-    </section>
+    <!-- Main Content Container (No Hero Banner) -->
+    <main class="container services-main-container" style="padding-top: 40px;">
 
-    <!-- Sub-Heading Filter Bar -->
-    <nav class="services-subnav-bar">
-        <div class="container subnav-container">
-            <div class="subnav-title"><i class="fa-solid fa-filter"></i> Filter Topics:</div>
-            <ul class="subnav-links" id="updateFilterTabs">
-                <li><button class="subnav-link update-tab active-subnav" data-filter="all"><i class="fa-solid fa-border-all"></i> All Updates</button></li>
-                <li><button class="subnav-link update-tab" data-filter="mca"><i class="fa-solid fa-building"></i> Companies Act & MCA</button></li>
-                <li><button class="subnav-link update-tab" data-filter="llp"><i class="fa-solid fa-handshake"></i> LLP Compliance</button></li>
-                <li><button class="subnav-link update-tab" data-filter="ibc"><i class="fa-solid fa-gavel"></i> IBC & IBBI</button></li>
-                <li><button class="subnav-link update-tab" data-filter="rera"><i class="fa-solid fa-city"></i> RERA Updates</button></li>
-            </ul>
-        </div>
-    </nav>
+        <!-- Initial Updates Topic Landing View -->
+        <section class="initial-categories-view" id="initialUpdatesView">
+            <div class="category-selection-header">
+                <h2>Corporate & Statutory Updates Directory</h2>
+                <p>Select an update category from the <strong>Updates ▾</strong> navigation dropdown menu above, or choose an option below to view specific circulars and reminders.</p>
+            </div>
 
-    <!-- Main Updates Container -->
-    <main class="container services-main-container">
-        <div class="updates-feed-grid" id="updatesFeed">
+            <div class="category-cards-grid">
+                <div class="category-select-card" data-target-update="mca">
+                    <div class="cat-card-icon"><i class="fa-solid fa-building"></i></div>
+                    <span class="cat-card-badge">Companies Act & MCA</span>
+                    <h3>Companies Act & MCA Updates</h3>
+                    <p>Annual MCA filings (AOC-4, MGT-7), PAS-6 demat returns, and statutory company circulars.</p>
+                    <div class="cat-card-action">
+                        <span class="cat-count-pill">MCA Filings</span>
+                        <span class="cat-view-btn">View Updates <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+
+                <div class="category-select-card" data-target-update="llp">
+                    <div class="cat-card-icon"><i class="fa-solid fa-handshake"></i></div>
+                    <span class="cat-card-badge">LLP Compliance</span>
+                    <h3>LLP Compliance Updates</h3>
+                    <p>Form 11 Annual Returns, Form 8 Statement of Accounts, and LLP statutory reminders.</p>
+                    <div class="cat-card-action">
+                        <span class="cat-count-pill">LLP Filings</span>
+                        <span class="cat-view-btn">View Updates <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+
+                <div class="category-select-card" data-target-update="ibc">
+                    <div class="cat-card-icon"><i class="fa-solid fa-gavel"></i></div>
+                    <span class="cat-card-badge">IBC & IBBI</span>
+                    <h3>IBC & IBBI Circulars</h3>
+                    <p>Insolvency proceedings, claim submission deadlines, and liquidation process timelines.</p>
+                    <div class="cat-card-action">
+                        <span class="cat-count-pill">IBBI Notices</span>
+                        <span class="cat-view-btn">View Updates <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+
+                <div class="category-select-card" data-target-update="rera">
+                    <div class="cat-card-icon"><i class="fa-solid fa-city"></i></div>
+                    <span class="cat-card-badge">RERA Updates</span>
+                    <h3>RERA Project Compliance</h3>
+                    <p>Quarterly project completion disclosures, financial disclosures, and promoter filings.</p>
+                    <div class="cat-card-action">
+                        <span class="cat-count-pill">RERA Returns</span>
+                        <span class="cat-view-btn">View Updates <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+
+                <div class="category-select-card" data-target-update="annual">
+                    <div class="cat-card-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                    <span class="cat-card-badge">Director & Annual</span>
+                    <h3>Director & Annual Compliance</h3>
+                    <p>DIR-3 KYC, e-KYC DIN verification deadlines, and annual compliance reminders.</p>
+                    <div class="cat-card-action">
+                        <span class="cat-count-pill">KYC & Dates</span>
+                        <span class="cat-view-btn">View Updates <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Selected Updates Topic Feed Container -->
+        <div class="category-services-wrapper" id="updatesWrapper">
+            <div class="category-nav-bar-top" id="updatesNavTop" style="display:none; margin-bottom: 24px;">
+                <button class="btn btn-outline" id="backToUpdatesCategoriesBtn">
+                    <i class="fa-solid fa-arrow-left"></i> View All Update Topics
+                </button>
+            </div>
+
+            <div class="updates-feed-grid" id="updatesFeed" style="display: none;">
 
         <article class="update-card" data-category="mca">
             <div class="update-card-header">
@@ -105,9 +164,9 @@
             </div>
         </article>
 
-        <article class="update-card" data-category="mca">
+        <article class="update-card" data-category="annual">
             <div class="update-card-header">
-                <span class="part-badge-tag">Director KYC</span>
+                <span class="part-badge-tag">Director & Annual Compliance</span>
                 <span class="update-date"><i class="fa-regular fa-calendar"></i> July 15, 2026</span>
             </div>
             <h3>DIR-3 KYC & e-KYC Annual Filing Deadline Notice</h3>
@@ -130,7 +189,7 @@
 
         <article class="update-card" data-category="mca">
             <div class="update-card-header">
-                <span class="part-badge-tag">Dematerialisation</span>
+                <span class="part-badge-tag">Companies Act & MCA</span>
                 <span class="update-date"><i class="fa-regular fa-calendar"></i> July 10, 2026</span>
             </div>
             <h3>Dematerialisation of Shares & Half-Yearly PAS-6 Compliance for Private Companies</h3>
@@ -153,7 +212,7 @@
 
         <article class="update-card" data-category="ibc">
             <div class="update-card-header">
-                <span class="part-badge-tag">IBC & IBBI</span>
+                <span class="part-badge-tag">IBC & IBBI Circulars</span>
                 <span class="update-date"><i class="fa-regular fa-calendar"></i> July 05, 2026</span>
             </div>
             <h3>IBBI Guidelines on Timelines in Liquidation & CIRP Proceedings</h3>
@@ -176,7 +235,7 @@
 
         <article class="update-card" data-category="llp">
             <div class="update-card-header">
-                <span class="part-badge-tag">LLP Compliance</span>
+                <span class="part-badge-tag">LLP Compliance Updates</span>
                 <span class="update-date"><i class="fa-regular fa-calendar"></i> June 28, 2026</span>
             </div>
             <h3>LLP Form 11 Annual Return & Form 8 Statement of Accounts Reminder</h3>
@@ -199,7 +258,7 @@
 
         <article class="update-card" data-category="rera">
             <div class="update-card-header">
-                <span class="part-badge-tag">RERA Compliance</span>
+                <span class="part-badge-tag">RERA Updates</span>
                 <span class="update-date"><i class="fa-regular fa-calendar"></i> June 18, 2026</span>
             </div>
             <h3>RERA Quarterly Project Progress & Compliance Return Filings</h3>
@@ -220,6 +279,7 @@
             </div>
         </article>
 
+            </div>
         </div>
     </main>
 
