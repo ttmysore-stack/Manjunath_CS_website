@@ -1,219 +1,124 @@
+/* ==========================================================================
+   CS Manjunath S - Master JavaScript Engine
+   ========================================================================== */
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Glitch-Free Carousel Transition Engine
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('#sliderDots .dot');
-    const totalSlides = slides.length;
-    let currentIndex = 0;
-    let slideInterval;
-    const slideDelay = 4000;
-
-    function goToSlide(index) {
-        if (index < 0) index = totalSlides - 1;
-        if (index >= totalSlides) index = 0;
-
-        slides.forEach((slide, i) => {
-            if (i === index) {
-                slide.classList.add('active-slide');
-            } else {
-                slide.classList.remove('active-slide');
-            }
-        });
-
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-        });
-
-        currentIndex = index;
-    }
-
-    function startTimer() {
-        stopTimer();
-        slideInterval = setInterval(() => {
-            goToSlide(currentIndex + 1);
-        }, slideDelay);
-    }
-
-    function stopTimer() {
-        if (slideInterval) clearInterval(slideInterval);
-    }
-
-    dots.forEach(dot => {
-        dot.addEventListener('click', function() {
-            const idx = parseInt(this.getAttribute('data-index'));
-            goToSlide(idx);
-            startTimer();
-        });
-    });
-
-    const sliderWrapper = document.querySelector('.hero-slider-wrapper');
-    if(sliderWrapper) {
-        sliderWrapper.addEventListener('mouseenter', stopTimer);
-        sliderWrapper.addEventListener('mouseleave', startTimer);
-    }
-
-    startTimer();
-
-    // Direct Home Link and Logo Redirection Scroll to Absolute Top
-    const logoLink = document.getElementById('logoLink');
-    if(logoLink) {
-        logoLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-
-    // Mobile Hamburger Menu Toggle
+    
+    // ----------------------------------------------------------------------
+    // 1. Mobile Navigation Menu Toggle
+    // ----------------------------------------------------------------------
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
 
-    if(menuToggle && navLinks) {
+    if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('active-mobile');
+            navLinks.classList.toggle('active');
+            menuToggle.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
         });
+    }
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                navLinks.classList.remove('active-mobile');
-                if (link.getAttribute('href') === '#top-anchor') {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // ----------------------------------------------------------------------
+    // 2. Services Page Category Filtering (Shows Only Selected Category)
+    // ----------------------------------------------------------------------
+    const categoryTabs = document.querySelectorAll('.cat-tab');
+    const categoryGroups = document.querySelectorAll('.category-view-group');
+
+    if (categoryTabs.length > 0 && categoryGroups.length > 0) {
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetPart = this.getAttribute('data-part');
+
+                // Highlight active tab
+                categoryTabs.forEach(t => t.classList.remove('active-subnav'));
+                this.classList.add('active-subnav');
+
+                // Display only selected category group
+                categoryGroups.forEach(group => {
+                    if (group.getAttribute('id') === targetPart) {
+                        group.style.display = 'block';
+                    } else {
+                        group.style.display = 'none';
+                    }
+                });
+
+                // Scroll to active section smoothly
+                const targetGroup = document.getElementById(targetPart);
+                if (targetGroup) {
+                    const offsetTop = targetGroup.offsetTop - 80;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
                 }
             });
         });
     }
-});
 
-/* ==========================================================================
-   Services Page Interactive Engine (Search, Filter Tabs, Back to Top)
-   ========================================================================== */
-
-document.addEventListener('DOMContentLoaded', function() {
-
-    // Category Tabs Filter Logic
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const partSections = document.querySelectorAll('.part-section');
-    const serviceCards = document.querySelectorAll('.service-card');
-    const searchInput = document.getElementById('serviceSearchInput');
-    const clearSearchBtn = document.getElementById('clearSearchBtn');
-    const noResultsMsg = document.getElementById('noResultsMsg');
-    const backToTopBtn = document.getElementById('backToTopBtn');
-
-    let activeCategory = 'all';
-
-    function filterServices() {
-        const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
-        let totalVisible = 0;
-
-        if (clearSearchBtn) {
-            clearSearchBtn.style.display = query.length > 0 ? 'flex' : 'none';
-        }
-
-        partSections.forEach(section => {
-            const sectionPartId = section.getAttribute('id');
-            const matchesCategory = (activeCategory === 'all' || activeCategory === sectionPartId);
-            let visibleInSection = 0;
-
-            const cards = section.querySelectorAll('.service-card');
-            cards.forEach(card => {
-                const cardContent = card.textContent.toLowerCase();
-                const matchesSearch = query === '' || cardContent.includes(query);
-
-                if (matchesCategory && matchesSearch) {
-                    card.style.display = 'flex';
-                    visibleInSection++;
-                    totalVisible++;
+    // ----------------------------------------------------------------------
+    // 3. Service Cards Read More Details Toggle
+    // ----------------------------------------------------------------------
+    const readMoreServiceBtns = document.querySelectorAll('.read-more-service-btn');
+    readMoreServiceBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const drawer = document.getElementById(targetId);
+            if (drawer) {
+                if (drawer.style.display === 'none' || drawer.style.display === '') {
+                    drawer.style.display = 'block';
+                    this.innerHTML = '<i class="fa-solid fa-chevron-up"></i> Hide Details';
                 } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            if (matchesCategory && (visibleInSection > 0 || query === '')) {
-                section.style.display = 'block';
-            } else {
-                section.style.display = 'none';
-            }
-        });
-
-        if (noResultsMsg) {
-            noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
-        }
-    }
-
-    // Tab Button Event Listeners
-    if (tabBtns.length > 0) {
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                tabBtns.forEach(b => b.classList.remove('active-tab'));
-                this.classList.add('active-tab');
-                activeCategory = this.getAttribute('data-target');
-                filterServices();
-            });
-        });
-    }
-
-    // Search Input Event Listener
-    if (searchInput) {
-        searchInput.addEventListener('input', filterServices);
-    }
-
-    // Clear Search Button
-    if (clearSearchBtn) {
-        clearSearchBtn.addEventListener('click', function() {
-            if (searchInput) searchInput.value = '';
-            filterServices();
-            if (searchInput) searchInput.focus();
-        });
-    }
-
-    // Global reset search function
-    window.resetSearch = function() {
-        if (searchInput) searchInput.value = '';
-        activeCategory = 'all';
-        tabBtns.forEach(b => {
-            b.classList.toggle('active-tab', b.getAttribute('data-target') === 'all');
-        });
-        filterServices();
-    };
-
-    // Back to Top Button Toggle
-    if (backToTopBtn) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('show-top-btn');
-            } else {
-                backToTopBtn.classList.remove('show-top-btn');
-            }
-        });
-
-        backToTopBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-
-    // Check for hash in URL on page load (e.g. services.html#part-2)
-    if (window.location.hash) {
-        const targetHash = window.location.hash.substring(1);
-        if (['part-1', 'part-2', 'part-3', 'part-5'].includes(targetHash)) {
-            const targetTab = document.querySelector(`.tab-btn[data-target="${targetHash}"]`);
-            if (targetTab) {
-                targetTab.click();
-                const targetElement = document.getElementById(targetHash);
-                if (targetElement) {
-                    setTimeout(() => {
-                        targetElement.scrollIntoView({ behavior: 'smooth' });
-                    }, 200);
+                    drawer.style.display = 'none';
+                    this.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Read More Details';
                 }
             }
-        }
+        });
+    });
+
+    // ----------------------------------------------------------------------
+    // 4. Updates Page Filtering
+    // ----------------------------------------------------------------------
+    const updateTabs = document.querySelectorAll('.update-tab');
+    const updateCards = document.querySelectorAll('.update-card');
+
+    if (updateTabs.length > 0 && updateCards.length > 0) {
+        updateTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+
+                updateTabs.forEach(t => t.classList.remove('active-subnav'));
+                this.classList.add('active-subnav');
+
+                updateCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
     }
-});
 
-/* ==========================================================================
-   Social Media Floating Action Button (FAB) Toggle Engine
-   ========================================================================== */
+    // Updates Read More Toggle
+    const readMoreUpdateBtns = document.querySelectorAll('.read-more-update-btn');
+    readMoreUpdateBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const details = document.getElementById(targetId);
+            if (details) {
+                if (details.style.display === 'none' || details.style.display === '') {
+                    details.style.display = 'block';
+                    this.innerHTML = '<i class="fa-solid fa-book-open-reader"></i> Show Less';
+                } else {
+                    details.style.display = 'none';
+                    this.innerHTML = '<i class="fa-solid fa-book-open"></i> Read More';
+                }
+            }
+        });
+    });
 
-document.addEventListener('DOMContentLoaded', function() {
+    // ----------------------------------------------------------------------
+    // 5. Floating Social FAB Toggle
+    // ----------------------------------------------------------------------
     const socialFab = document.getElementById('socialFab');
     const fabToggleBtn = document.getElementById('fabToggleBtn');
 
@@ -223,65 +128,72 @@ document.addEventListener('DOMContentLoaded', function() {
             socialFab.classList.toggle('fab-open');
         });
 
-        // Close FAB when clicking outside
         document.addEventListener('click', function(e) {
             if (!socialFab.contains(e.target)) {
                 socialFab.classList.remove('fab-open');
             }
         });
     }
-});
 
-/* ==========================================================================
-   Services Page Sub-Heading Bar Scroll & Active Highlight Logic
-   ========================================================================== */
+    // ----------------------------------------------------------------------
+    // 6. WhatsApp Quick Enquiry Form Modal Engine
+    // ----------------------------------------------------------------------
+    const whatsappModal = document.getElementById('whatsappModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const whatsappForm = document.getElementById('whatsappForm');
 
-document.addEventListener('DOMContentLoaded', function() {
-    const subnavLinks = document.querySelectorAll('.subnav-link');
-    const sections = document.querySelectorAll('.part-section');
-
-    if (subnavLinks.length > 0 && sections.length > 0) {
-        // Active scrollspy highlight
-        function onScroll() {
-            let current = '';
-            const scrollPos = window.scrollY + 140;
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                    current = section.getAttribute('id');
+    // Global trigger function
+    window.openWhatsAppModal = function(preselectedService) {
+        if (whatsappModal) {
+            if (preselectedService) {
+                const waServiceSelect = document.getElementById('waService');
+                if (waServiceSelect) {
+                    waServiceSelect.value = preselectedService;
                 }
-            });
-
-            subnavLinks.forEach(link => {
-                link.classList.remove('active-subnav');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active-subnav');
-                }
-            });
+            }
+            whatsappModal.classList.add('active-modal');
         }
+    };
 
-        window.addEventListener('scroll', onScroll);
+    if (closeModalBtn && whatsappModal) {
+        closeModalBtn.addEventListener('click', function() {
+            whatsappModal.classList.remove('active-modal');
+        });
 
-        // Smooth scroll to category section
-        subnavLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetSec = document.getElementById(targetId);
-                if (targetSec) {
-                    const offsetTop = targetSec.offsetTop - 80;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+        whatsappModal.addEventListener('click', function(e) {
+            if (e.target === whatsappModal) {
+                whatsappModal.classList.remove('active-modal');
+            }
         });
     }
 
-    // Back to Top Floating Button Toggle
+    if (whatsappForm) {
+        whatsappForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('waName').value.trim();
+            const mobile = document.getElementById('waMobile').value.trim();
+            const email = document.getElementById('waEmail').value.trim();
+            const service = document.getElementById('waService').value;
+            const message = document.getElementById('waMessage').value.trim();
+
+            let fullMsg = `Hello Sir, I visited your website and would like assistance regarding ${service}.\n\n`;
+            fullMsg += `*Client Details:*\n`;
+            fullMsg += `• Name: ${name}\n`;
+            fullMsg += `• Mobile: ${mobile}\n`;
+            if (email) fullMsg += `• Email: ${email}\n`;
+            if (message) fullMsg += `• Enquiry: ${message}\n`;
+
+            const encodedUrl = `https://wa.me/919964307595?text=${encodeURIComponent(fullMsg)}`;
+            window.open(encodedUrl, '_blank');
+
+            whatsappModal.classList.remove('active-modal');
+            whatsappForm.reset();
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // 7. Back to Top Button
+    // ----------------------------------------------------------------------
     const backToTopBtn = document.getElementById('backToTopBtn');
     if (backToTopBtn) {
         window.addEventListener('scroll', function() {
