@@ -3,6 +3,7 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
+
     // ----------------------------------------------------------------------
     // 0. Hero Carousel Auto-Slider Controller (3-Second Auto-Advance)
     // ----------------------------------------------------------------------
@@ -93,7 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', function() {
             navLinks.classList.toggle('active');
-            menuToggle.innerHTML = navLinks.classList.contains('active') ? 
+            navLinks.classList.toggle('active-mobile');
+            menuToggle.innerHTML = (navLinks.classList.contains('active') || navLinks.classList.contains('active-mobile')) ? 
                 '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
         });
     }
@@ -106,7 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const backToCategoriesBtn = document.getElementById('backToCategoriesBtn');
     const categorySelectCards = document.querySelectorAll('.category-select-card[data-target-part]');
     const categoryGroups = document.querySelectorAll('.category-view-group');
-    const subServiceDropdowns = document.querySelectorAll('.sub-service-dropdown');
+    const subServiceItemCards = document.querySelectorAll('.sub-service-item-card');
+    const backToSubgridBtns = document.querySelectorAll('.back-to-subgrid-btn');
 
     function showAllCategories() {
         if (initialCategoriesView) initialCategoriesView.style.display = 'block';
@@ -128,37 +131,33 @@ document.addEventListener('DOMContentLoaded', function() {
         if (initialCategoriesView) initialCategoriesView.style.display = 'none';
         if (categoryNavTop) categoryNavTop.style.display = 'block';
 
-        // Show only the selected part group
+        // Show ONLY the selected part group
         categoryGroups.forEach(function(group) {
             group.style.display = (group.getAttribute('id') === partId) ? 'block' : 'none';
         });
 
-        // Now handle single service filtering within the active part
         var activeGroup = document.getElementById(partId);
         if (activeGroup) {
+            var subGrid = activeGroup.querySelector('.part-sub-services-grid');
+            var explanationWrap = activeGroup.querySelector('.single-service-explanation-wrap');
             var allCards = activeGroup.querySelectorAll('.single-service-card');
-            var selectorBox = activeGroup.querySelector('.sub-service-selector-box');
 
             if (serviceId && serviceId !== 'all') {
-                // HIDE all service cards, show ONLY the selected one
+                // HIDE the sub-grid menu, SHOW the single explanation view
+                if (subGrid) subGrid.style.display = 'none';
+                if (explanationWrap) explanationWrap.style.display = 'block';
+
                 allCards.forEach(function(card) {
                     card.style.display = (card.getAttribute('id') === serviceId) ? 'block' : 'none';
                 });
-
-                // HIDE the dropdown selector since a service is already selected
-                if (selectorBox) selectorBox.style.display = 'none';
             } else {
-                // Show ALL service cards in this part
+                // SHOW the sub-grid menu of services, HIDE explanation view
+                if (subGrid) subGrid.style.display = 'block';
+                if (explanationWrap) explanationWrap.style.display = 'none';
+
                 allCards.forEach(function(card) {
-                    card.style.display = 'block';
+                    card.style.display = 'none';
                 });
-
-                // Show the dropdown selector for browsing
-                if (selectorBox) selectorBox.style.display = 'flex';
-
-                // Reset the dropdown
-                var dropdown = activeGroup.querySelector('.sub-service-dropdown');
-                if (dropdown) dropdown.value = 'all';
             }
         }
 
@@ -169,23 +168,15 @@ document.addEventListener('DOMContentLoaded', function() {
             window.history.pushState({path: newUrl}, '', newUrl);
         }
 
-        // Scroll to top of the content
-        if (serviceId && serviceId !== 'all') {
-            var targetCard = document.getElementById(serviceId);
-            if (targetCard) {
-                var offsetTop = targetCard.offsetTop - 90;
-                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-            }
-        } else {
-            var targetSec = document.getElementById(partId);
-            if (targetSec) {
-                var offsetTop = targetSec.offsetTop - 80;
-                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-            }
+        // Scroll to top
+        var targetElem = serviceId ? document.getElementById(serviceId) : document.getElementById(partId);
+        if (targetElem) {
+            var offsetTop = targetElem.offsetTop - 80;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
         }
     }
 
-    // Landing view card clicks
+    // Category Card clicks
     categorySelectCards.forEach(function(card) {
         card.addEventListener('click', function() {
             var partId = this.getAttribute('data-target-part');
@@ -200,12 +191,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Sub-Service Dropdown change - show ONLY the selected service
-    subServiceDropdowns.forEach(function(dropdown) {
-        dropdown.addEventListener('change', function() {
-            var selectedServiceId = this.value;
+    // Sub-Service Item Card clicks
+    subServiceItemCards.forEach(function(card) {
+        card.addEventListener('click', function() {
+            var partId = this.getAttribute('data-part-id');
+            var serviceId = this.getAttribute('data-service-id');
+            showSelectedCategory(partId, serviceId);
+        });
+    });
+
+    // Back to Sub-Grid Menu buttons
+    backToSubgridBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
             var partId = this.getAttribute('data-part');
-            showSelectedCategory(partId, selectedServiceId);
+            showSelectedCategory(partId, null);
         });
     });
 
