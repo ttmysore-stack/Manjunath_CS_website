@@ -3109,3 +3109,49 @@
     line-height: 1.6 !important;
     font-size: 14px !important;
 }
+/* Hero Slider Navigation Arrows */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.4);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(4px);
+}
+
+.slider-arrow:hover {
+    background: var(--blue-primary);
+    border-color: var(--blue-primary);
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 73, 142, 0.4);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.slider-arrow-prev {
+    left: 24px;
+}
+
+.slider-arrow-next {
+    right: 24px;
+}
+
+@media (max-width: 768px) {
+    .slider-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+    }
+    .slider-arrow-prev { left: 10px; }
+    .slider-arrow-next { right: 10px; }
+}

@@ -3,6 +3,86 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    // ----------------------------------------------------------------------
+    // 0. Hero Carousel Auto-Slider Controller (Homepage)
+    // ----------------------------------------------------------------------
+    const slides = document.querySelectorAll('.hero-slider-wrapper .slide');
+    const dots = document.querySelectorAll('#sliderDots .dot');
+    const prevBtn = document.getElementById('sliderPrevBtn');
+    const nextBtn = document.getElementById('sliderNextBtn');
+    const sliderWrapper = document.querySelector('.hero-slider-wrapper');
+
+    if (slides.length > 0) {
+        let currentSlide = 0;
+        let slideTimer = null;
+
+        function goToSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            currentSlide = (n + slides.length) % slides.length;
+
+            slides[currentSlide].classList.add('active-slide');
+            if (dots[currentSlide]) {
+                dots[currentSlide].classList.add('active');
+            }
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        function startAutoSlide() {
+            stopAutoSlide();
+            slideTimer = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoSlide() {
+            if (slideTimer) {
+                clearInterval(slideTimer);
+                slideTimer = null;
+            }
+        }
+
+        // Initialize slider
+        goToSlide(0);
+        startAutoSlide();
+
+        // Event listeners for dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                goToSlide(index);
+                startAutoSlide();
+            });
+        });
+
+        // Prev / Next arrows
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                prevSlide();
+                startAutoSlide();
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                nextSlide();
+                startAutoSlide();
+            });
+        }
+
+        // Pause auto-rotation on mouse hover
+        if (sliderWrapper) {
+            sliderWrapper.addEventListener('mouseenter', stopAutoSlide);
+            sliderWrapper.addEventListener('mouseleave', startAutoSlide);
+        }
+    }
+
     
     // ----------------------------------------------------------------------
     // 1. Mobile Navigation Menu Toggle
