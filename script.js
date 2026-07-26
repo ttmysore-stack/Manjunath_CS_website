@@ -19,14 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 2. Services Page Category Selection & View Controller
+    // 2. Services Page Selection & View Controller
     // ----------------------------------------------------------------------
     const initialCategoriesView = document.getElementById('initialCategoriesView');
-    const categoryServicesWrapper = document.getElementById('categoryServicesWrapper');
     const categoryNavTop = document.getElementById('categoryNavTop');
     const backToCategoriesBtn = document.getElementById('backToCategoriesBtn');
-    const categorySelectCards = document.querySelectorAll('.category-select-card');
-    const categoryTabs = document.querySelectorAll('.cat-tab');
+    const categorySelectCards = document.querySelectorAll('.category-select-card[data-target-part]');
     const categoryGroups = document.querySelectorAll('.category-view-group');
 
     function showAllCategories() {
@@ -34,14 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (categoryNavTop) categoryNavTop.style.display = 'none';
 
         categoryGroups.forEach(group => group.style.display = 'none');
-        categoryTabs.forEach(tab => {
-            tab.classList.remove('active-subnav');
-            if (tab.getAttribute('data-part') === 'all') {
-                tab.classList.add('active-subnav');
-            }
-        });
 
-        // Update URL query string cleanly
         if (window.history.pushState) {
             const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.pushState({path: newUrl}, '', newUrl);
@@ -66,21 +57,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Highlight active category tab
-        categoryTabs.forEach(tab => {
-            tab.classList.remove('active-subnav');
-            if (tab.getAttribute('data-part') === partId) {
-                tab.classList.add('active-subnav');
-            }
-        });
-
-        // Update URL parameter without full page reload
+        // Update URL parameter without page reload
         if (window.history.pushState) {
             const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?part=' + partId;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
 
-        // Scroll to category header
+        // Scroll to active category section top
         const targetSec = document.getElementById(partId);
         if (targetSec) {
             const offsetTop = targetSec.offsetTop - 80;
@@ -88,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Handle clicks on Category Select Cards (Landing view)
+    // Landing view card clicks
     categorySelectCards.forEach(card => {
         card.addEventListener('click', function() {
             const partId = this.getAttribute('data-target-part');
@@ -96,35 +79,96 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle clicks on Category Tabs
-    categoryTabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            const partId = this.getAttribute('data-part');
-            showSelectedCategory(partId);
-        });
-    });
-
-    // Back to All Categories button
     if (backToCategoriesBtn) {
         backToCategoriesBtn.addEventListener('click', function() {
             showAllCategories();
-            const subnavBar = document.getElementById('subnavBar');
-            if (subnavBar) {
-                window.scrollTo({ top: subnavBar.offsetTop - 70, behavior: 'smooth' });
-            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-    // Check URL query parameters on initial page load (e.g. ?part=part-1)
+    // Check URL query parameters for Services page (?part=part-1)
     const urlParams = new URLSearchParams(window.location.search);
     const initialPart = urlParams.get('part');
-    if (initialPart) {
+    if (initialPart && categoryGroups.length > 0) {
         showSelectedCategory(initialPart);
     }
 
     // ----------------------------------------------------------------------
-    // 3. Service Cards Read More Details Toggle
+    // 3. IBC & Valuation Page Selection & View Controller
+    // ----------------------------------------------------------------------
+    const initialIbcView = document.getElementById('initialIbcView');
+    const ibcNavTop = document.getElementById('ibcNavTop');
+    const backToIbcCategoriesBtn = document.getElementById('backToIbcCategoriesBtn');
+    const ibcSelectCards = document.querySelectorAll('.category-select-card[data-target-ibc]');
+    const ibcGroups = document.querySelectorAll('.ibc-view-group');
+
+    function showAllIbcSections() {
+        if (initialIbcView) initialIbcView.style.display = 'block';
+        if (ibcNavTop) ibcNavTop.style.display = 'none';
+
+        ibcGroups.forEach(group => group.style.display = 'none');
+
+        if (window.history.pushState) {
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.pushState({path: newUrl}, '', newUrl);
+        }
+    }
+
+    function showSelectedIbcSection(secId) {
+        if (!secId || secId === 'all') {
+            showAllIbcSections();
+            return;
+        }
+
+        if (initialIbcView) initialIbcView.style.display = 'none';
+        if (ibcNavTop) ibcNavTop.style.display = 'block';
+
+        // Display ONLY the selected IBC section
+        ibcGroups.forEach(group => {
+            if (group.getAttribute('id') === secId) {
+                group.style.display = 'block';
+            } else {
+                group.style.display = 'none';
+            }
+        });
+
+        // Update URL parameter without page reload
+        if (window.history.pushState) {
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?sec=' + secId;
+            window.history.pushState({path: newUrl}, '', newUrl);
+        }
+
+        // Scroll to active section top
+        const targetSec = document.getElementById(secId);
+        if (targetSec) {
+            const offsetTop = targetSec.offsetTop - 80;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        }
+    }
+
+    // Landing view card clicks for IBC
+    ibcSelectCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const secId = this.getAttribute('data-target-ibc');
+            showSelectedIbcSection(secId);
+        });
+    });
+
+    if (backToIbcCategoriesBtn) {
+        backToIbcCategoriesBtn.addEventListener('click', function() {
+            showAllIbcSections();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // Check URL query parameters for IBC page (?sec=voluntary-liquidation)
+    const initialSec = urlParams.get('sec');
+    if (initialSec && ibcGroups.length > 0) {
+        showSelectedIbcSection(initialSec);
+    }
+
+    // ----------------------------------------------------------------------
+    // 4. Service Cards Read More Details Toggle
     // ----------------------------------------------------------------------
     const readMoreServiceBtns = document.querySelectorAll('.read-more-service-btn');
     readMoreServiceBtns.forEach(btn => {
@@ -144,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ----------------------------------------------------------------------
-    // 4. Updates Page Filtering
+    // 5. Updates Page Filtering
     // ----------------------------------------------------------------------
     const updateTabs = document.querySelectorAll('.update-tab');
     const updateCards = document.querySelectorAll('.update-card');
@@ -187,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ----------------------------------------------------------------------
-    // 5. Floating Social FAB Toggle
+    // 6. Floating Social FAB Toggle
     // ----------------------------------------------------------------------
     const socialFab = document.getElementById('socialFab');
     const fabToggleBtn = document.getElementById('fabToggleBtn');
@@ -206,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 6. WhatsApp Quick Enquiry Form Modal Engine
+    // 7. WhatsApp Quick Enquiry Form Modal Engine
     // ----------------------------------------------------------------------
     const whatsappModal = document.getElementById('whatsappModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -261,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 7. Back to Top Button
+    // 8. Back to Top Button
     // ----------------------------------------------------------------------
     const backToTopBtn = document.getElementById('backToTopBtn');
     if (backToTopBtn) {
