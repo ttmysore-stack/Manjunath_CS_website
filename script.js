@@ -3,30 +3,42 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
-
     // ----------------------------------------------------------------------
-    // 0. Hero Carousel Auto-Slider Controller (Homepage)
+    // 0. Hero Carousel Auto-Slider Controller (3-Second Auto-Advance)
     // ----------------------------------------------------------------------
     const slides = document.querySelectorAll('.hero-slider-wrapper .slide');
     const dots = document.querySelectorAll('#sliderDots .dot');
     const prevBtn = document.getElementById('sliderPrevBtn');
     const nextBtn = document.getElementById('sliderNextBtn');
-    const sliderWrapper = document.querySelector('.hero-slider-wrapper');
 
     if (slides.length > 0) {
         let currentSlide = 0;
         let slideTimer = null;
 
         function goToSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active-slide'));
-            dots.forEach(dot => dot.classList.remove('active'));
-
             currentSlide = (n + slides.length) % slides.length;
 
-            slides[currentSlide].classList.add('active-slide');
-            if (dots[currentSlide]) {
-                dots[currentSlide].classList.add('active');
-            }
+            slides.forEach((slide, idx) => {
+                if (idx === currentSlide) {
+                    slide.classList.add('active-slide');
+                    slide.style.opacity = '1';
+                    slide.style.visibility = 'visible';
+                    slide.style.zIndex = '5';
+                } else {
+                    slide.classList.remove('active-slide');
+                    slide.style.opacity = '0';
+                    slide.style.visibility = 'hidden';
+                    slide.style.zIndex = '1';
+                }
+            });
+
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
         }
 
         function nextSlide() {
@@ -38,22 +50,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function startAutoSlide() {
-            stopAutoSlide();
-            slideTimer = setInterval(nextSlide, 5000);
+            if (slideTimer) clearInterval(slideTimer);
+            slideTimer = setInterval(nextSlide, 3000); // 3 seconds auto-advancing
         }
 
-        function stopAutoSlide() {
-            if (slideTimer) {
-                clearInterval(slideTimer);
-                slideTimer = null;
-            }
-        }
-
-        // Initialize slider
+        // Initialize slider immediately
         goToSlide(0);
         startAutoSlide();
 
-        // Event listeners for dots
+        // Indicator dot clicks
         dots.forEach((dot, index) => {
             dot.addEventListener('click', function() {
                 goToSlide(index);
@@ -61,29 +66,24 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Prev / Next arrows
+        // Prev / Next arrow buttons
         if (prevBtn) {
-            prevBtn.addEventListener('click', function() {
+            prevBtn.addEventListener('click', function(e) {
+                e.preventDefault();
                 prevSlide();
                 startAutoSlide();
             });
         }
 
         if (nextBtn) {
-            nextBtn.addEventListener('click', function() {
+            nextBtn.addEventListener('click', function(e) {
+                e.preventDefault();
                 nextSlide();
                 startAutoSlide();
             });
         }
-
-        // Pause auto-rotation on mouse hover
-        if (sliderWrapper) {
-            sliderWrapper.addEventListener('mouseenter', stopAutoSlide);
-            sliderWrapper.addEventListener('mouseleave', startAutoSlide);
-        }
     }
 
-    
     // ----------------------------------------------------------------------
     // 1. Mobile Navigation Menu Toggle
     // ----------------------------------------------------------------------
