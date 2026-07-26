@@ -1838,27 +1838,27 @@
 /* Mobile adjustments for FAB */
 @media (max-width: 768px) {
     .social-fab-container {
-        bottom: 12px;
-        right: 14px;
+        bottom: 10px !important;
+        right: 12px !important;
     }
     .fab-toggle {
-        width: 46px;
-        height: 46px;
-        font-size: 19px;
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 18px !important;
     }
     .fab-item {
-        width: 38px;
-        height: 38px;
-        font-size: 16px;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 15px !important;
     }
     .fab-item::before {
         display: none;
     }
     .back-to-top-btn {
-        bottom: 12px !important;
-        right: 68px !important;
-        width: 44px !important;
-        height: 44px !important;
+        bottom: 10px !important;
+        right: 64px !important;
+        width: 42px !important;
+        height: 42px !important;
     }
 }
 
