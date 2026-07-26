@@ -19,13 +19,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 2. Services Page Selection & View Controller
+    // 2. Services Page Selection & Accordion Controller
     // ----------------------------------------------------------------------
     const initialCategoriesView = document.getElementById('initialCategoriesView');
     const categoryNavTop = document.getElementById('categoryNavTop');
     const backToCategoriesBtn = document.getElementById('backToCategoriesBtn');
     const categorySelectCards = document.querySelectorAll('.category-select-card[data-target-part]');
     const categoryGroups = document.querySelectorAll('.category-view-group');
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    const subServiceDropdowns = document.querySelectorAll('.sub-service-dropdown');
 
     function showAllCategories() {
         if (initialCategoriesView) initialCategoriesView.style.display = 'block';
@@ -39,7 +41,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function showSelectedCategory(partId) {
+    function expandSpecificAccordion(serviceId) {
+        if (!serviceId) return;
+        const accordionCard = document.getElementById(serviceId);
+        if (accordionCard) {
+            // Collapse all other accordions in the same group
+            const parentGroup = accordionCard.closest('.category-view-group');
+            if (parentGroup) {
+                parentGroup.querySelectorAll('.accordion-item-card').forEach(card => {
+                    card.classList.remove('accordion-active');
+                    const body = card.querySelector('.accordion-body');
+                    if (body) body.style.display = 'none';
+                    const btnSpan = card.querySelector('.accordion-toggle-btn span');
+                    if (btnSpan) btnSpan.textContent = 'Expand Details';
+                });
+            }
+
+            // Expand chosen accordion
+            accordionCard.classList.add('accordion-active');
+            const body = accordionCard.querySelector('.accordion-body');
+            if (body) body.style.display = 'block';
+            const btnSpan = accordionCard.querySelector('.accordion-toggle-btn span');
+            if (btnSpan) btnSpan.textContent = 'Collapse Details';
+
+            // Scroll to accordion item smoothly
+            const offsetTop = accordionCard.offsetTop - 90;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        }
+    }
+
+    function showSelectedCategory(partId, serviceId = null) {
         if (!partId || partId === 'all') {
             showAllCategories();
             return;
@@ -57,17 +88,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Update URL parameter without page reload
+        // Update URL parameter cleanly
         if (window.history.pushState) {
-            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?part=' + partId;
+            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?part=' + partId;
+            if (serviceId) newUrl += '&service=' + serviceId;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
 
-        // Scroll to active category section top
-        const targetSec = document.getElementById(partId);
-        if (targetSec) {
-            const offsetTop = targetSec.offsetTop - 80;
-            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        if (serviceId) {
+            setTimeout(() => expandSpecificAccordion(serviceId), 100);
+        } else {
+            const targetSec = document.getElementById(partId);
+            if (targetSec) {
+                const offsetTop = targetSec.offsetTop - 80;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            }
         }
     }
 
@@ -86,11 +121,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Check URL query parameters for Services page (?part=part-1)
+    // Accordion Toggle Clicks
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const card = this.closest('.accordion-item-card');
+            const targetId = this.getAttribute('data-accordion-target');
+            const body = document.getElementById(targetId);
+            const btnSpan = this.querySelector('.accordion-toggle-btn span');
+
+            if (card.classList.contains('accordion-active')) {
+                card.classList.remove('accordion-active');
+                if (body) body.style.display = 'none';
+                if (btnSpan) btnSpan.textContent = 'Expand Details';
+            } else {
+                card.classList.add('accordion-active');
+                if (body) body.style.display = 'block';
+                if (btnSpan) btnSpan.textContent = 'Collapse Details';
+            }
+        });
+    });
+
+    // Sub-Service Dropdown Selectors
+    subServiceDropdowns.forEach(dropdown => {
+        dropdown.addEventListener('change', function() {
+            const selectedServiceId = this.value;
+            if (selectedServiceId) {
+                expandSpecificAccordion(selectedServiceId);
+            }
+        });
+    });
+
+    // Check URL query parameters for Services page (?part=part-1&service=sole-proprietorship)
     const urlParams = new URLSearchParams(window.location.search);
     const initialPart = urlParams.get('part');
+    const initialService = urlParams.get('service');
+
     if (initialPart && categoryGroups.length > 0) {
-        showSelectedCategory(initialPart);
+        showSelectedCategory(initialPart, initialService);
     }
 
     // ----------------------------------------------------------------------
@@ -132,13 +199,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Update URL parameter without page reload
         if (window.history.pushState) {
             const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?sec=' + secId;
             window.history.pushState({path: newUrl}, '', newUrl);
         }
 
-        // Scroll to active section top
         const targetSec = document.getElementById(secId);
         if (targetSec) {
             const offsetTop = targetSec.offsetTop - 80;
@@ -146,7 +211,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Landing view card clicks for IBC
     ibcSelectCards.forEach(card => {
         card.addEventListener('click', function() {
             const secId = this.getAttribute('data-target-ibc');
@@ -161,7 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Check URL query parameters for IBC page (?sec=voluntary-liquidation)
     const initialSec = urlParams.get('sec');
     if (initialSec && ibcGroups.length > 0) {
         showSelectedIbcSection(initialSec);
@@ -231,7 +294,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Check URL query parameters for Updates page (?cat=mca)
     const initialCat = urlParams.get('cat');
     if (initialCat && updateCards.length > 0) {
         showSelectedUpdateTopic(initialCat);
@@ -256,27 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ----------------------------------------------------------------------
-    // 5. Service Cards Read More Details Toggle
-    // ----------------------------------------------------------------------
-    const readMoreServiceBtns = document.querySelectorAll('.read-more-service-btn');
-    readMoreServiceBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const drawer = document.getElementById(targetId);
-            if (drawer) {
-                if (drawer.style.display === 'none' || drawer.style.display === '') {
-                    drawer.style.display = 'block';
-                    this.innerHTML = '<i class="fa-solid fa-chevron-up"></i> Hide Details';
-                } else {
-                    drawer.style.display = 'none';
-                    this.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Read More Details';
-                }
-            }
-        });
-    });
-
-    // ----------------------------------------------------------------------
-    // 6. Floating Social FAB Toggle
+    // 5. Floating Social FAB Toggle
     // ----------------------------------------------------------------------
     const socialFab = document.getElementById('socialFab');
     const fabToggleBtn = document.getElementById('fabToggleBtn');
@@ -295,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 7. WhatsApp Quick Enquiry Form Modal Engine
+    // 6. WhatsApp Quick Enquiry Form Modal Engine
     // ----------------------------------------------------------------------
     const whatsappModal = document.getElementById('whatsappModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -350,7 +392,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ----------------------------------------------------------------------
-    // 8. Back to Top Button
+    // 7. Back to Top Button
     // ----------------------------------------------------------------------
     const backToTopBtn = document.getElementById('backToTopBtn');
     if (backToTopBtn) {
