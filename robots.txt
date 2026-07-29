@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.csmanjunath.com/sitemap.xml
+
+# Disallow temp/system files
+Disallow: /.git/
+Disallow: /.DS_Store
