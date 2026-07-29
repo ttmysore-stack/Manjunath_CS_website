@@ -93,12 +93,12 @@
         }
 
         .brand-logo-img {
-            height: 46px;
-            width: auto;
-            object-fit: contain;
-            mix-blend-mode: multiply;
-            transition: transform 0.2s ease;
-        }
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform 0.2s ease;
+}
 
         .brand-logo-img:hover {
             transform: scale(1.02);
@@ -1035,12 +1035,11 @@
         }
 
         .footer-logo-img {
-            height: 42px;
-            width: auto;
-            object-fit: contain;
-            filter: invert(1) brightness(200%);
-            mix-blend-mode: screen;
-        }
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    filter: none;
+}
 
         .footer-brand p {
             font-size: 14px;
