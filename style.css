@@ -3390,3 +3390,14 @@
         text-align: center !important;
     }
 }
+
+.visitor-count-number {
+    font-weight: 700;
+    color: #38BDF8;
+    background: rgba(56, 189, 248, 0.12);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 4px;
+    font-family: 'Inter', monospace;
+    letter-spacing: 0.5px;
+}

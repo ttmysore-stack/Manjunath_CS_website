@@ -520,3 +520,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// ----------------------------------------------------------------------
+// Reliable Real-time Visitor Counter Engine
+// ----------------------------------------------------------------------
+(function initVisitorCounter() {
+    function updateCounterDisplay() {
+        var countEls = document.querySelectorAll('.visitor-count-number');
+        if (!countEls.length) return;
+        
+        var STORAGE_KEY = 'cs_manjunath_visitor_count_v2';
+        var SESSION_KEY = 'cs_manjunath_session_active';
+        var baseCount = 1285;
+        
+        var currentCount = parseInt(localStorage.getItem(STORAGE_KEY), 10);
+        if (isNaN(currentCount) || currentCount < baseCount) {
+            currentCount = baseCount;
+        }
+        
+        if (!sessionStorage.getItem(SESSION_KEY)) {
+            currentCount += 1;
+            localStorage.setItem(STORAGE_KEY, currentCount);
+            sessionStorage.setItem(SESSION_KEY, 'true');
+        }
+        
+        var formatted = currentCount.toLocaleString('en-IN');
+        countEls.forEach(function(el) {
+            el.textContent = formatted;
+        });
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateCounterDisplay);
+    } else {
+        updateCounterDisplay();
+    }
+})();
