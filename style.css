@@ -3343,3 +3343,50 @@
         transition: transform 0.25s ease;
     }
 }
+
+/* ==========================================================================
+   Live Visitor Counter Badge (Footer Integration)
+   ========================================================================== */
+.footer-bottom {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+    text-align: left !important;
+}
+
+.visitor-counter-wrapper {
+    display: inline-flex;
+    align-items: center;
+}
+
+.visitor-counter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #E2E8F0;
+    font-weight: 500;
+}
+
+.visitor-counter-badge i {
+    color: #38BDF8;
+}
+
+.visitor-badge-img {
+    height: 20px;
+    vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+    .footer-bottom {
+        flex-direction: column !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+}
