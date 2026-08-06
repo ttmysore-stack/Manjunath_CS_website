@@ -522,37 +522,40 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ----------------------------------------------------------------------
-// Reliable Real-time Visitor Counter Engine
+// Global Real-Time Visitor Counter Engine (CounterAPI Server Integrated)
 // ----------------------------------------------------------------------
-(function initVisitorCounter() {
-    function updateCounterDisplay() {
+(function initGlobalVisitorCounter() {
+    function fetchGlobalCount() {
         var countEls = document.querySelectorAll('.visitor-count-number');
         if (!countEls.length) return;
-        
-        var STORAGE_KEY = 'cs_manjunath_visitor_count_v2';
-        var SESSION_KEY = 'cs_manjunath_session_active';
-        var baseCount = 1285;
-        
-        var currentCount = parseInt(localStorage.getItem(STORAGE_KEY), 10);
-        if (isNaN(currentCount) || currentCount < baseCount) {
-            currentCount = baseCount;
-        }
-        
-        if (!sessionStorage.getItem(SESSION_KEY)) {
-            currentCount += 1;
-            localStorage.setItem(STORAGE_KEY, currentCount);
-            sessionStorage.setItem(SESSION_KEY, 'true');
-        }
-        
-        var formatted = currentCount.toLocaleString('en-IN');
-        countEls.forEach(function(el) {
-            el.textContent = formatted;
-        });
+
+        var baseOffset = 1285;
+        var SESSION_KEY = 'csmanjunath_global_session_logged';
+        var endpoint = 'https://api.counterapi.dev/v1/csmanjunath_com/visits/';
+
+        // If new session, trigger increment (/up), else read current count (/read)
+        var actionUrl = sessionStorage.getItem(SESSION_KEY) ? (endpoint) : (endpoint + 'up');
+
+        fetch(actionUrl)
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data && typeof data.count === 'number') {
+                    sessionStorage.setItem(SESSION_KEY, 'true');
+                    var totalVisits = baseOffset + data.count;
+                    var formatted = totalVisits.toLocaleString('en-IN');
+                    countEls.forEach(function(el) {
+                        el.textContent = formatted;
+                    });
+                }
+            })
+            .catch(function(err) {
+                console.log('CounterAPI status:', err);
+            });
     }
-    
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', updateCounterDisplay);
+        document.addEventListener('DOMContentLoaded', fetchGlobalCount);
     } else {
-        updateCounterDisplay();
+        fetchGlobalCount();
     }
 })();
