@@ -3401,3 +3401,610 @@
     font-family: 'Inter', monospace;
     letter-spacing: 0.5px;
 }
+
+
+/* ==========================================================================
+   DPDP Act, 2023 Statutory Privacy & Terms Styling
+   ========================================================================== */
+.policy-header-section {
+    background: linear-gradient(135deg, #0A192F 0%, #00498E 100%);
+    color: #FFFFFF;
+    padding: 120px 0 50px;
+    text-align: center;
+}
+
+.policy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38BDF8;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.policy-header-section h2 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #FFFFFF;
+}
+
+.policy-subtitle {
+    font-size: 16px;
+    color: #94A3B8;
+    max-width: 760px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+}
+
+.policy-meta {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-size: 13px;
+    color: #CBD5E1;
+}
+
+.policy-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.language-select-bar {
+    background: #F1F5F9;
+    padding: 16px 0;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.lang-pill-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.lang-pill-btn {
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    color: #334155;
+    padding: 8px 20px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lang-pill-btn:hover {
+    border-color: var(--blue-primary);
+    color: var(--blue-primary);
+}
+
+.lang-pill-btn.active {
+    background: var(--blue-primary);
+    color: #FFFFFF;
+    border-color: var(--blue-primary);
+    box-shadow: 0 2px 8px rgba(0, 73, 142, 0.25);
+}
+
+.policy-main-content {
+    padding: 50px 0 80px;
+    background: #F8FAFC;
+}
+
+.policy-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    padding: 36px 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.policy-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #F1F5F9;
+    padding-bottom: 14px;
+}
+
+.sec-num {
+    background: #EFF6FF;
+    color: var(--blue-primary);
+    font-size: 14px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #DBEAFE;
+}
+
+.policy-card-header h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.policy-card p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #475569;
+    margin-bottom: 16px;
+}
+
+.fiduciary-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-left: 4px solid var(--blue-primary);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 18px;
+}
+
+.fiduciary-box h4 {
+    font-size: 16px;
+    color: var(--blue-primary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fiduciary-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.fiduciary-box ul li {
+    font-size: 14px;
+    color: #334155;
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.data-table-wrapper {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+}
+
+.policy-table th {
+    background: #F1F5F9;
+    color: #1E293B;
+    padding: 12px 16px;
+    border: 1px solid #E2E8F0;
+    font-weight: 700;
+}
+
+.policy-table td {
+    padding: 14px 16px;
+    border: 1px solid #E2E8F0;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.policy-bullets {
+    padding-left: 20px;
+    margin-bottom: 16px;
+}
+
+.policy-bullets li {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.rights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.right-item {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    padding: 24px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.right-item:hover {
+    border-color: #93C5FD;
+    box-shadow: 0 4px 12px rgba(0, 73, 142, 0.08);
+}
+
+.right-icon {
+    width: 44px;
+    height: 44px;
+    background: #EFF6FF;
+    color: var(--blue-primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 14px;
+}
+
+.right-item h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.right-item p {
+    font-size: 14px;
+    color: #64748B;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.rights-action-box {
+    background: #FEF3C7;
+    border: 1px solid #FDE68A;
+    border-radius: 8px;
+    padding: 16px 20px;
+    color: #92400E;
+    font-size: 14px;
+    margin-top: 24px;
+    line-height: 1.6;
+}
+
+.grievance-contact-card {
+    display: flex;
+    gap: 24px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-left: 4px solid var(--blue-primary);
+    padding: 24px;
+    border-radius: 0 10px 10px 0;
+    margin-top: 20px;
+    align-items: flex-start;
+}
+
+.grievance-avatar {
+    width: 56px;
+    height: 56px;
+    background: var(--blue-primary);
+    color: #FFFFFF;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.grievance-details h4 {
+    font-size: 18px;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.role-badge {
+    display: inline-block;
+    background: #EFF6FF;
+    color: var(--blue-primary);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 12px !important;
+}
+
+.grievance-details p {
+    font-size: 14px;
+    color: #334155;
+    margin-bottom: 6px;
+    line-height: 1.6;
+}
+
+.dpbi-notice-box {
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 24px;
+}
+
+.dpbi-notice-box h4 {
+    font-size: 15px;
+    color: var(--blue-primary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dpbi-notice-box p {
+    font-size: 14px;
+    color: #1E3A8A;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.kn-content {
+    font-family: "Noto Sans Kannada", "Inter", sans-serif;
+}
+
+/* ==========================================================================
+   DPDP Cookie Consent Banner & Modal
+   ========================================================================== */
+.dpdp-cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0A192F;
+    color: #FFFFFF;
+    padding: 16px 20px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+    z-index: 99999;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideUpBanner 0.4s ease forwards;
+}
+
+@keyframes slideUpBanner {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.dpdp-banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.dpdp-banner-text {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+    min-width: 280px;
+}
+
+.dpdp-banner-icon {
+    font-size: 26px;
+    color: #38BDF8;
+    margin-top: 2px;
+}
+
+.dpdp-banner-text h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+}
+
+.dpdp-banner-text p {
+    font-size: 13px;
+    color: #94A3B8;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.dpdp-banner-text a {
+    color: #38BDF8;
+    text-decoration: underline;
+}
+
+.dpdp-banner-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.dpdp-btn-essential {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dpdp-btn-essential:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dpdp-btn-accept {
+    background: #00498E;
+    color: #FFFFFF;
+    border: 1px solid #38BDF8;
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dpdp-btn-accept:hover {
+    background: #003366;
+    box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+}
+
+/* Cookie Settings Modal */
+.cookie-settings-card {
+    max-width: 580px;
+}
+
+.cookie-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.cookie-option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 16px;
+    gap: 16px;
+}
+
+.cookie-option-info strong {
+    display: block;
+    font-size: 14px;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.cookie-option-info p {
+    font-size: 12px;
+    color: #64748B;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.badge-always-active {
+    background: #DCFCE7;
+    color: #166534;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.cookie-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 16px;
+}
+
+/* Switch Toggle UI */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #CBD5E1;
+    transition: .3s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+}
+
+input:checked + .slider {
+    background-color: var(--blue-primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* WhatsApp Form DPDP Consent Checkbox */
+.form-checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 14px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.form-checkbox-group input[type="checkbox"] {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--blue-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.form-checkbox-group label {
+    cursor: pointer;
+}
+
+.form-checkbox-group a {
+    color: var(--blue-primary);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .policy-card {
+        padding: 24px 20px;
+    }
+    .policy-header-section h2 {
+        font-size: 26px;
+    }
+    .grievance-contact-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .dpdp-banner-inner {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .dpdp-banner-actions {
+        justify-content: flex-end;
+    }
+}

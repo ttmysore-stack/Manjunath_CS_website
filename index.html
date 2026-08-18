@@ -2,13 +2,18 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2ZXNT6Z7KW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag("js", new Date());
-  gtag("config", "G-2ZXNT6Z7KW");
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ZXNT6Z7KW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      // Default DPDP Consent: Denied until user affirmatively accepts
+      gtag("consent", "default", {
+        "analytics_storage": "denied",
+        "ad_storage": "denied"
+      });
+      gtag("config", "G-2ZXNT6Z7KW");
+    </script>
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="hs1H9iYEh0L45tW0rpivCThTVf-tTQm9_wC4RE9LnFQ">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -769,6 +774,17 @@
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
+
+                <div>
+                    <h4 style="margin-bottom: 16px; font-size: 16px; text-align: left; color: white;">Legal & Privacy</h4>
+                    <ul class="footer-links">
+                        <li><a href="privacy-policy.html">Privacy Policy (DPDP Act)</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy-policy.html#grievance-officer">Grievance Officer</a></li>
+                        <li><a href="javascript:void(0)" onclick="openCookieModal()">Cookie & Privacy Settings</a></li>
+                    </ul>
+                </div>
+
             </div>
 
             <div class="footer-bottom">
@@ -784,5 +800,62 @@
 
     
     <script src="script.js"></script>
+
+    <!-- DPDP Cookie Consent Banner -->
+    <div id="dpdpCookieBanner" class="dpdp-cookie-banner" style="display: none;">
+        <div class="container dpdp-banner-inner">
+            <div class="dpdp-banner-text">
+                <i class="fa-solid fa-shield-halved dpdp-banner-icon"></i>
+                <div>
+                    <h4>Privacy & Cookie Notice (DPDP Act, 2023)</h4>
+                    <p>We use essential cookies to ensure site security and functionality, and privacy-respecting analytics to improve your experience. Learn more in our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+                </div>
+            </div>
+            <div class="dpdp-banner-actions">
+                <button class="btn dpdp-btn-essential" onclick="rejectOptionalCookies()">Essential Only</button>
+                <button class="btn dpdp-btn-accept" onclick="acceptAllCookies()">Accept All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie & Privacy Settings Modal -->
+    <div id="cookieSettingsModal" class="modal-overlay">
+        <div class="modal-card cookie-settings-card">
+            <button class="modal-close-btn" onclick="closeCookieModal()">&times;</button>
+            <div class="modal-header">
+                <i class="fa-solid fa-sliders modal-wa-icon" style="color: var(--blue-primary);"></i>
+                <h3>Cookie & Privacy Preferences</h3>
+                <p>Manage your consent settings as per the Digital Personal Data Protection Act, 2023</p>
+            </div>
+            <div class="cookie-options-list">
+                <div class="cookie-option-item">
+                    <div class="cookie-option-info">
+                        <strong>1. Strictly Necessary Cookies & Storage</strong>
+                        <p>Essential for basic website navigation, security, and storing your consent preferences. Cannot be turned off.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <span class="badge-always-active">Always Active</span>
+                    </div>
+                </div>
+                <div class="cookie-option-item">
+                    <div class="cookie-option-info">
+                        <strong>2. Anonymous Analytics Cookies (Google Analytics 4)</strong>
+                        <p>Helps us understand website performance, visitor volume, and popular services without identifying you individually.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <label class="switch">
+                            <input type="checkbox" id="analyticsToggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="cookie-modal-actions">
+                <button class="btn btn-secondary" onclick="closeCookieModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveCustomCookiePreferences()">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

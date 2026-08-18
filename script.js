@@ -480,6 +480,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (whatsappForm) {
         whatsappForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            var consentBox = document.getElementById('waConsent');
+            if (consentBox && !consentBox.checked) {
+                alert('Please accept the Privacy Policy consent before submitting your enquiry.');
+                return;
+            }
             var name = document.getElementById('waName').value.trim();
             var mobile = document.getElementById('waMobile').value.trim();
             var email = document.getElementById('waEmail').value.trim();
@@ -559,3 +564,87 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchGlobalCount();
     }
 })();
+
+
+// ----------------------------------------------------------------------
+// 8. DPDP Act, 2023 Cookie & Privacy Consent Engine (Google Consent Mode v2)
+// ----------------------------------------------------------------------
+var DPDP_CONSENT_KEY = 'csmanjunath_dpdp_consent_v1';
+
+function updateGoogleConsent(granted) {
+    if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+            'analytics_storage': granted ? 'granted' : 'denied',
+            'ad_storage': 'denied'
+        });
+    }
+}
+
+window.acceptAllCookies = function() {
+    localStorage.setItem(DPDP_CONSENT_KEY, JSON.stringify({ analytics: true, timestamp: new Date().toISOString() }));
+    updateGoogleConsent(true);
+    var banner = document.getElementById('dpdpCookieBanner');
+    if (banner) banner.style.display = 'none';
+    closeCookieModal();
+};
+
+window.rejectOptionalCookies = function() {
+    localStorage.setItem(DPDP_CONSENT_KEY, JSON.stringify({ analytics: false, timestamp: new Date().toISOString() }));
+    updateGoogleConsent(false);
+    var banner = document.getElementById('dpdpCookieBanner');
+    if (banner) banner.style.display = 'none';
+    closeCookieModal();
+};
+
+window.openCookieModal = function() {
+    var modal = document.getElementById('cookieSettingsModal');
+    if (modal) {
+        var saved = localStorage.getItem(DPDP_CONSENT_KEY);
+        var toggle = document.getElementById('analyticsToggle');
+        if (toggle) {
+            if (saved) {
+                try {
+                    var parsed = JSON.parse(saved);
+                    toggle.checked = !!parsed.analytics;
+                } catch(e) {
+                    toggle.checked = false;
+                }
+            } else {
+                toggle.checked = false;
+            }
+        }
+        modal.classList.add('active-modal');
+    }
+};
+
+window.closeCookieModal = function() {
+    var modal = document.getElementById('cookieSettingsModal');
+    if (modal) modal.classList.remove('active-modal');
+};
+
+window.saveCustomCookiePreferences = function() {
+    var toggle = document.getElementById('analyticsToggle');
+    var isAnalyticsAllowed = toggle ? toggle.checked : false;
+    localStorage.setItem(DPDP_CONSENT_KEY, JSON.stringify({ analytics: isAnalyticsAllowed, timestamp: new Date().toISOString() }));
+    updateGoogleConsent(isAnalyticsAllowed);
+    var banner = document.getElementById('dpdpCookieBanner');
+    if (banner) banner.style.display = 'none';
+    closeCookieModal();
+};
+
+// Check consent status on page load
+document.addEventListener('DOMContentLoaded', function() {
+    var saved = localStorage.getItem(DPDP_CONSENT_KEY);
+    var banner = document.getElementById('dpdpCookieBanner');
+    if (!saved) {
+        if (banner) banner.style.display = 'block';
+        updateGoogleConsent(false); // default denied under DPDP Act
+    } else {
+        try {
+            var parsed = JSON.parse(saved);
+            updateGoogleConsent(!!parsed.analytics);
+        } catch(e) {
+            updateGoogleConsent(false);
+        }
+    }
+});

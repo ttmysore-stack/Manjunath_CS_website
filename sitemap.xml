@@ -4,27 +4,39 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>https://www.csmanjunath.com/index.html</loc>
-    <lastmod>2026-07-29</lastmod>
+    <loc>https://csmanjunath.com/index.html</loc>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.csmanjunath.com/services.html</loc>
-    <lastmod>2026-07-29</lastmod>
+    <loc>https://csmanjunath.com/services.html</loc>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.csmanjunath.com/ibc-valuation.html</loc>
-    <lastmod>2026-07-29</lastmod>
+    <loc>https://csmanjunath.com/ibc-valuation.html</loc>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.csmanjunath.com/updates.html</loc>
-    <lastmod>2026-07-29</lastmod>
+    <loc>https://csmanjunath.com/updates.html</loc>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://csmanjunath.com/privacy-policy.html</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://csmanjunath.com/terms.html</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
