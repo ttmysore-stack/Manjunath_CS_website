@@ -668,6 +668,11 @@ var galleryData = [
         src: 'event_gallery_3.jpg',
         title: 'Professional Capacity Building & Student Mentorship',
         desc: 'Engaging audience and prospective corporate secretaries in interactive Q&A and practical corporate governance case studies.'
+    },
+    {
+        src: 'event_gallery_4.jpg',
+        title: 'Professional Training Batch & Mentorship Program',
+        desc: 'Group photograph of CS Manjunath S with student delegates, aspiring company secretaries, and corporate professionals.'
     }
 ];
 
