@@ -195,6 +195,7 @@
     <li><a href="services.html?part=part-4&service=secretarial-audit-legal-due-diligence">Secretarial Audit & Legal Due Diligence</a></li>
     <li><a href="services.html?part=part-4&service=board-general-meeting-advisory">Board & General Meeting Advisory</a></li>
     <li><a href="services.html?part=part-4&service=corporate-governance-policy-drafting">Corporate Governance & Policy Drafting</a></li>
+    <li><a href="services.html?part=part-4&service=fema-rbi-compliance">FEMA & RBI Compliance</a></li>
 </ul>
 
                         </li>
@@ -242,6 +243,7 @@
                 </li>
                 <li><a href="index.html#about">About Us</a></li>
                 <li><a href="index.html#why-us">Why Us</a></li>
+                <li><a href="#gallery">Gallery</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
             <div class="menu-toggle" id="menuToggle">
@@ -696,6 +698,85 @@
         </div>
     </section>
 
+        <!-- Events & Knowledge Sessions Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <div class="gallery-header-wrap">
+                <div class="gallery-badge"><i class="fa-solid fa-camera-retro"></i> Professional Highlights</div>
+                <h2>Events, Seminars & Training Gallery</h2>
+                <p class="section-header-subtitle">Keynote lectures, professional seminars, and interactive workshops on FEMA, Corporate Law & Banking Credit conducted by CS Manjunath S</p>
+            </div>
+
+            <div class="events-gallery-grid">
+                
+                <!-- Event Photo 1: FEMA & Corporate Law -->
+                <div class="gallery-card" onclick="openGalleryLightbox(0)">
+                    <div class="gallery-img-container">
+                        <img src="event_gallery_1.jpg" alt="CS Manjunath S delivering keynote on FEMA Compliances and Regulatory Framework" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <span class="gallery-zoom-icon"><i class="fa-solid fa-expand"></i></span>
+                            <span class="gallery-view-text">Click to Enlarge</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card-content">
+                        <span class="event-tag"><i class="fa-solid fa-graduation-cap"></i> FEMA & Regulatory Compliance</span>
+                        <h4>Masterclass on FEMA, FDI & Cross-Border Compliances</h4>
+                        <p>CS Manjunath S addressing professionals and students on foreign investment routes, AD Bank coordination, and RBI reporting.</p>
+                    </div>
+                </div>
+
+                <!-- Event Photo 2: Business & Banking Credit -->
+                <div class="gallery-card" onclick="openGalleryLightbox(1)">
+                    <div class="gallery-img-container">
+                        <img src="event_gallery_2.jpg" alt="CS Manjunath S presenting on Why Businesses Need Bank Credit" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <span class="gallery-zoom-icon"><i class="fa-solid fa-expand"></i></span>
+                            <span class="gallery-view-text">Click to Enlarge</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card-content">
+                        <span class="event-tag"><i class="fa-solid fa-building-columns"></i> Banking & Credit Advisory</span>
+                        <h4>Interactive Seminar on Business Credit & Corporate Finance</h4>
+                        <p>Executive lecture explaining working capital management, trade credit, and corporate borrowing compliances for businesses.</p>
+                    </div>
+                </div>
+
+                <!-- Event Photo 3: Workshop & Audience -->
+                <div class="gallery-card" onclick="openGalleryLightbox(2)">
+                    <div class="gallery-img-container">
+                        <img src="event_gallery_3.jpg" alt="Audience and participants attending CS Manjunath S corporate governance workshop" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <span class="gallery-zoom-icon"><i class="fa-solid fa-expand"></i></span>
+                            <span class="gallery-view-text">Click to Enlarge</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card-content">
+                        <span class="event-tag"><i class="fa-solid fa-users"></i> Executive Training & Workshop</span>
+                        <h4>Professional Capacity Building & Student Mentorship</h4>
+                        <p>Engaging audience and prospective corporate secretaries in interactive Q&A and practical corporate governance case studies.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Lightbox Modal -->
+    <div id="galleryLightboxModal" class="gallery-lightbox-overlay" onclick="closeGalleryLightbox(event)">
+        <div class="lightbox-content-box" onclick="event.stopPropagation()">
+            <button class="lightbox-close-btn" onclick="closeGalleryLightbox()">&times;</button>
+            <div class="lightbox-image-wrap">
+                <img id="lightboxImg" src="" alt="Enlarged Event Photo">
+            </div>
+            <div class="lightbox-caption">
+                <h4 id="lightboxTitle"></h4>
+                <p id="lightboxDesc"></p>
+            </div>
+            <button class="lightbox-nav-btn prev-btn" onclick="navGalleryLightbox(-1)">&#10094;</button>
+            <button class="lightbox-nav-btn next-btn" onclick="navGalleryLightbox(1)">&#10095;</button>
+        </div>
+    </div>
+
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
         <div class="container">
@@ -771,6 +852,7 @@
                         <li><a href="services.html">Services</a></li>
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#why-us">Why Us</a></li>
+                <li><a href="#gallery">Gallery</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>

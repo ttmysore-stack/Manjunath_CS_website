@@ -648,3 +648,75 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+
+// ----------------------------------------------------------------------
+// 9. Events Gallery Lightbox Engine
+// ----------------------------------------------------------------------
+var galleryData = [
+    {
+        src: 'event_gallery_1.jpg',
+        title: 'Masterclass on FEMA, FDI & Cross-Border Compliances',
+        desc: 'CS Manjunath S addressing professionals and students on foreign investment routes, AD Bank coordination, and RBI reporting.'
+    },
+    {
+        src: 'event_gallery_2.jpg',
+        title: 'Interactive Seminar on Business Credit & Corporate Finance',
+        desc: 'Executive lecture explaining working capital management, trade credit, and corporate borrowing compliances for businesses.'
+    },
+    {
+        src: 'event_gallery_3.jpg',
+        title: 'Professional Capacity Building & Student Mentorship',
+        desc: 'Engaging audience and prospective corporate secretaries in interactive Q&A and practical corporate governance case studies.'
+    }
+];
+
+var currentLightboxIdx = 0;
+
+window.openGalleryLightbox = function(idx) {
+    currentLightboxIdx = idx;
+    var modal = document.getElementById('galleryLightboxModal');
+    var img = document.getElementById('lightboxImg');
+    var title = document.getElementById('lightboxTitle');
+    var desc = document.getElementById('lightboxDesc');
+    
+    if (modal && img && title && desc && galleryData[idx]) {
+        img.src = galleryData[idx].src;
+        title.textContent = galleryData[idx].title;
+        desc.textContent = galleryData[idx].desc;
+        modal.classList.add('active-lightbox');
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+window.closeGalleryLightbox = function(e) {
+    if (e && e.target && e.target.closest && e.target.closest('.lightbox-content-box') && !e.target.classList.contains('lightbox-close-btn')) {
+        return;
+    }
+    var modal = document.getElementById('galleryLightboxModal');
+    if (modal) {
+        modal.classList.remove('active-lightbox');
+        document.body.style.overflow = '';
+    }
+};
+
+window.navGalleryLightbox = function(dir) {
+    currentLightboxIdx = (currentLightboxIdx + dir + galleryData.length) % galleryData.length;
+    var img = document.getElementById('lightboxImg');
+    var title = document.getElementById('lightboxTitle');
+    var desc = document.getElementById('lightboxDesc');
+    if (img && title && desc && galleryData[currentLightboxIdx]) {
+        img.src = galleryData[currentLightboxIdx].src;
+        title.textContent = galleryData[currentLightboxIdx].title;
+        desc.textContent = galleryData[currentLightboxIdx].desc;
+    }
+};
+
+document.addEventListener('keydown', function(e) {
+    var modal = document.getElementById('galleryLightboxModal');
+    if (modal && modal.classList.contains('active-lightbox')) {
+        if (e.key === 'Escape') closeGalleryLightbox();
+        if (e.key === 'ArrowLeft') navGalleryLightbox(-1);
+        if (e.key === 'ArrowRight') navGalleryLightbox(1);
+    }
+});
